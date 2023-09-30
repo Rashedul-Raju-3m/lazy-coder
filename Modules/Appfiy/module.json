@@ -1,0 +1,13 @@
+{
+    "name": "Appfiy",
+    "alias": "appfiy",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Appfiy\\Providers\\AppfiyServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
