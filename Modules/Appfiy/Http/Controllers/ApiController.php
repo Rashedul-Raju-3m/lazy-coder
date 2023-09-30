@@ -223,6 +223,7 @@ class ApiController extends Controller
                                                 'appfiy_component.scope',
                                                 'appfiy_component.class_type',
                                                 'appfiy_component.web_icon',
+                                                DB::raw('CONCAT("/upload/component-image/", appfiy_component.image) AS image'),
                                                 'appfiy_component.is_multiple',
                                             ])->where('appfiy_component.is_active',1);
                                         },
@@ -237,6 +238,7 @@ class ApiController extends Controller
                                                 'appfiy_component.scope',
                                                 'appfiy_component.class_type',
                                                 'appfiy_component.web_icon',
+                                                DB::raw('CONCAT("/upload/component-image/", appfiy_component.image) AS image'),
                                                 'appfiy_component.is_multiple',
                                             ])->where('appfiy_component.is_active',1);
                                         },
