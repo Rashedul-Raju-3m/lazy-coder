@@ -24,6 +24,9 @@ class Theme extends Model
     public function themePage(){
         return $this->hasMany('Modules\Appfiy\Entities\ThemePage','theme_id','id');
     }
+    public function themeStyle(){
+        return $this->hasMany('Modules\Appfiy\Entities\ThemeComponentStyle','theme_id','id');
+    }
 
     protected static function newFactory()
     {
