@@ -15,16 +15,16 @@ class Theme extends Model
     protected $dates = ['deleted_at','created_at', 'updated_at'];
     protected $fillable = ['name', 'image', 'appbar_id', 'navbar_id', 'drawer_id', 'appbar_navbar_drawer'];
 
-    public function themeComponent(){
+    public function component(){
         return $this->hasMany('Modules\Appfiy\Entities\ThemeComponent','theme_id','id');
     }
-    public function themeConfig(){
+    public function globalConfig(){
         return $this->hasMany('Modules\Appfiy\Entities\ThemeConfig','theme_id','id');
     }
-    public function themePage(){
+    public function page(){
         return $this->hasMany('Modules\Appfiy\Entities\ThemePage','theme_id','id');
     }
-    public function themeStyle(){
+    public function componentStyle(){
         return $this->hasMany('Modules\Appfiy\Entities\ThemeComponentStyle','theme_id','id');
     }
 

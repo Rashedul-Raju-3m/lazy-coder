@@ -134,9 +134,9 @@ class ApiController extends Controller
                 ])
                     ->with(
                         array(
-                            'themeConfig' => function ($query) {
+                            'globalConfig' => function ($query) {
                                 $query->select([
-                                    'appfiy_theme_config.id',
+//                                    'appfiy_theme_config.id',
                                     'appfiy_theme_config.theme_id',
                                     'appfiy_theme_config.mode',
                                     'appfiy_theme_config.name',
@@ -159,61 +159,49 @@ class ApiController extends Controller
                                     'appfiy_theme_config.title_spacing'
                                 ])->where('appfiy_theme_config.is_active',1);
                             },
-                            'themePage' => function ($query) {
+                            'page' => function ($query) {
                                 $query->select([
-                                    'appfiy_theme_page.id',
+//                                    'appfiy_theme_page.id',
                                     'appfiy_theme_page.theme_id',
-                                    'appfiy_theme_page.page_id'
-                                ])->with(
-                                    array(
-                                        'page' => function ($query) {
-                                            $query->select([
-                                                'appfiy_page.id',
-                                                'appfiy_page.name',
-                                                'appfiy_page.slug'
-                                            ]);
-                                        }
-                                    )
-                                );
+                                    'appfiy_theme_page.page_id',
+                                    'appfiy_page.name',
+                                    'appfiy_page.slug'
+                                ])->join('appfiy_page','appfiy_page.id','=','appfiy_theme_page.page_id');
                             },
-                            'themeComponent' => function ($query) {
+                            'component' => function ($query) {
                                 $query->select([
-                                    'appfiy_theme_component.id',
+//                                    'appfiy_theme_component.id',
                                     'appfiy_theme_component.theme_id',
                                     'appfiy_theme_component.component_parent_id',
                                     'appfiy_theme_component.component_id',
                                     'appfiy_theme_component.theme_config_id',
                                     'appfiy_theme_component.theme_page_id',
+                                    'appfiy_component.name',
+                                    'appfiy_component.slug',
+                                    'appfiy_component.label',
+                                    'appfiy_component.layout_type_id',
+                                    'appfiy_component.icon_code',
+                                    'appfiy_component.event',
+                                    'appfiy_component.scope',
+                                    'appfiy_component.class_type',
+                                    'appfiy_component.web_icon',
+                                    DB::raw('CONCAT("/upload/component-image/", appfiy_component.image) AS image'),
+                                    'appfiy_component.is_multiple',
                                 ])
-                                    ->with(array(
-                                        'component' => function ($query) {
-                                                $query->select([
-                                                    'appfiy_component.id',
-                                                    'appfiy_component.name',
-                                                    'appfiy_component.slug',
-                                                    'appfiy_component.label',
-                                                    'appfiy_component.layout_type_id',
-                                                    'appfiy_component.icon_code',
-                                                    'appfiy_component.event',
-                                                    'appfiy_component.scope',
-                                                    'appfiy_component.class_type',
-                                                    'appfiy_component.web_icon',
-                                                    DB::raw('CONCAT("/upload/component-image/", appfiy_component.image) AS image'),
-                                                    'appfiy_component.is_multiple',
-                                                ])->where('appfiy_component.is_active',1);
-                                            },
-                                    ));
+                                    ->join('appfiy_component','appfiy_component.id','=','appfiy_theme_component.component_id')
+                                    ->where('appfiy_component.is_active',1);
                             },
-                            'themeStyle' => function ($query) {
+                            'componentStyle' => function ($query) {
                                 $query->select([
-                                    'appfiy_theme_component_style.id',
+//                                    'appfiy_theme_component_style.id',
                                     'appfiy_theme_component_style.theme_id',
-                                    'appfiy_theme_component_style.theme_component_id',
+//                                    'appfiy_theme_component_style.theme_component_id',
+                                    'appfiy_theme_component.component_id',
                                     'appfiy_theme_component_style.name',
                                     'appfiy_theme_component_style.input_type',
                                     'appfiy_theme_component_style.value',
                                     'appfiy_theme_component_style.default_value',
-                                ]);
+                                ])->join('appfiy_theme_component','appfiy_theme_component.id','=','appfiy_theme_component_style.theme_component_id');
                             }
                         )
                     )
