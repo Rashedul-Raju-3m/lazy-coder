@@ -15,6 +15,7 @@ class CreateThemeComponentStylePropertiesTable extends Migration
     {
         Schema::create('appfiy_theme_component_style', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('theme_id')->unsigned();
             $table->unsignedBigInteger('theme_component_id')->unsigned();
             $table->string('name',255);
             $table->string('input_type',255);
@@ -23,6 +24,7 @@ class CreateThemeComponentStylePropertiesTable extends Migration
             $table->boolean('is_active')->default(true);
             $table->softDeletes();
             $table->timestamps();
+            $table->foreign('theme_id')->references('id')->on('appfiy_theme')->onDelete('cascade');
             $table->foreign('theme_component_id')->references('id')->on('appfiy_theme_component')->onDelete('cascade');
         });
     }
