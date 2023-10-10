@@ -224,6 +224,7 @@ class ApiController extends Controller
                                         }
 //                                        dd($newStyle);
                                         $componentArrange['general'] = [
+                                            'component_position'=>$component['component_position'],
                                             'name'=>$component['name'],
                                             'slug'=>$component['slug'],
                                             'label'=>$component['label'],
