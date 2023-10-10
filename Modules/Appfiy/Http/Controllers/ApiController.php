@@ -145,6 +145,10 @@ class ApiController extends Controller
                     ->where('appfiy_theme.id',$themeID)
                     ->first();
 
+                $finalData = [];
+                $finalData['theme_name'] = $data->name;
+                $finalData['theme_status'] = 'active';
+
                 if ($data){
                     foreach ($data['globalConfig'] as $config){
                         if (isset($config['mode']) && !empty($config['mode'])) {
@@ -191,6 +195,7 @@ class ApiController extends Controller
                                             'appfiy_component.slug',
                                             'appfiy_component.label',
                                             'appfiy_component.layout_type_id',
+                                            'appfiy_layout_type.slug as layout_type',
                                             'appfiy_component.icon_code',
                                             'appfiy_component.event',
                                             'appfiy_component.scope',
@@ -199,6 +204,7 @@ class ApiController extends Controller
                                             DB::raw('CONCAT("/upload/component-image/", appfiy_component.image) AS image'),
                                             'appfiy_component.is_multiple',
                                         ])
+                                        ->join('appfiy_layout_type','appfiy_layout_type.id','=','appfiy_component.layout_type_id')
                                         ->where('appfiy_global_config_component.global_config_id', $con['id'])
                                         ->get()->toArray();
 
@@ -215,7 +221,7 @@ class ApiController extends Controller
                                             $newStyle[$sty['name']] = $sty['value'];
                                         }
 //                                        dd($newStyle);
-                                        $component['style'][$layoutType->name] = $newStyle;
+                                        $component['style'][$layoutType->slug] = $newStyle;
                                         $componentWithStyletest[] = $component;
                                     }
 
@@ -225,6 +231,8 @@ class ApiController extends Controller
                             }
                         }
                         $config[$config['mode'].'_layouts'] = $dataArray;
+                        $finalData['global_cobfig'][$config['mode'].'_layouts'] =  $dataArray;
+
                     }
                 }
 
@@ -322,7 +330,7 @@ class ApiController extends Controller
                     'url' => $request->getUri(),
                     'method' => $request->getMethod(),
                     'message' => 'Data Found',
-                    'data' => $data
+                    'data' => $finalData
                 ], Response::HTTP_OK);
                 $response->headers->set('Content-Type', 'application/json');
                 return $response;
