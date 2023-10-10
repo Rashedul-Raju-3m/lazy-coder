@@ -210,6 +210,7 @@ class ApiController extends Controller
                                         ->get()->toArray();
 
                                     $componentWithStyletest = [];
+                                    $componentArrange = [];
                                     foreach ($getComponents as $component) {
                                         $component = (array)$component;
                                         $layoutType = DB::table('appfiy_layout_type')->find($component['layout_type_id']);
@@ -222,8 +223,23 @@ class ApiController extends Controller
                                             $newStyle[$sty['name']] = $sty['value'];
                                         }
 //                                        dd($newStyle);
-                                        $component['style'][$layoutType->slug] = $newStyle;
-                                        $componentWithStyletest[] = $component;
+                                        $componentArrange['general'] = [
+                                            'name'=>$component['name'],
+                                            'slug'=>$component['slug'],
+                                            'label'=>$component['label'],
+                                            'layout_type'=>$component['layout_type'],
+                                            'icon_code'=>$component['icon_code'],
+                                            'event'=>$component['event'],
+                                            'scope'=>$component['scope'],
+                                            'class_type'=>$component['class_type'],
+                                            'web_icon'=>$component['web_icon'],
+                                            'image'=>$component['image'],
+                                            'is_multiple'=>$component['is_multiple'],
+                                        ];
+//                                        $component['style'][$layoutType->slug] = $newStyle;
+                                        $componentArrange['style'][$layoutType->slug] = $newStyle;
+//                                        $componentWithStyletest[] = $component;
+                                        $componentWithStyletest[] = $componentArrange;
                                     }
 
                                     $finalCon['components'] = $componentWithStyletest;
