@@ -133,8 +133,8 @@ class ApiController extends Controller
                                 $query->select([
                                     'appfiy_theme_config.theme_id',
                                     'appfiy_theme_config.mode',
-                                    'appfiy_theme_config.name',
-                                    'appfiy_theme_config.slug',
+//                                    'appfiy_theme_config.name',
+//                                    'appfiy_theme_config.slug',
                                     'appfiy_theme_config.global_config_id',
                                 ])->where('appfiy_theme_config.is_active',1);
                             }
@@ -153,11 +153,36 @@ class ApiController extends Controller
                             ])->where('mode', $config['mode'])->get();
                             $dataArray = [];
                             if (isset($configData) && !empty($configData)) {
+                                $finalCon = [];
                                 foreach ($configData as $con) {
                                     $con = (array)$con;
-                                    $con['is_active'] = 'no';
+                                    $finalCon['general'] = [
+                                        'mode'=>$con['mode'],
+                                        'name'=>$con['name'],
+                                        'slug'=>$con['slug'],
+                                        'is_active'=>'no'
+                                    ];
+                                    $finalCon['properties'] = [
+                                        'background_color'=>$con['background_color'],
+                                        'layout'=>$con['layout'],
+                                        'icon_theme_size'=>$con['icon_theme_size'],
+                                        'icon_theme_color'=>$con['icon_theme_color'],
+                                        'shadow'=>$con['shadow'],
+                                        'icon'=>$con['icon'],
+                                        'automatically_imply_leading'=>$con['automatically_imply_leading'],
+                                        'center_title'=>$con['center_title'],
+                                        'flexible_space'=>$con['flexible_space'],
+                                        'bottom'=>$con['bottom'],
+                                        'shape_type'=>$con['shape_type'],
+                                        'shape_border_radius'=>$con['shape_border_radius'],
+                                        'toolbar_opacity'=>$con['toolbar_opacity'],
+                                        'actions_icon_theme_color'=>$con['actions_icon_theme_color'],
+                                        'actions_icon_theme_size'=>$con['actions_icon_theme_size'],
+                                        'title_spacing'=>$con['title_spacing'],
+                                    ];
+//                                    $con['is_active'] = 'no';
                                     if ($con['id'] == $config['global_config_id']) {
-                                        $con['is_active'] = 'yes';
+                                        $finalCon['is_active'] = 'yes';
                                     }
                                     $getComponents = DB::table('appfiy_global_config_component')
                                         ->join('appfiy_component', 'appfiy_component.id', '=', 'appfiy_global_config_component.component_id')
@@ -176,21 +201,26 @@ class ApiController extends Controller
                                         ])
                                         ->where('appfiy_global_config_component.global_config_id', $con['id'])
                                         ->get()->toArray();
+
                                     $componentWithStyletest = [];
                                     foreach ($getComponents as $component) {
                                         $component = (array)$component;
                                         $layoutType = DB::table('appfiy_layout_type')->find($component['layout_type_id']);
-//                                        dd($layoutType->name);
-
                                         $getComponentsStyle = DB::table('appfiy_component_style_properties')->select([
                                             'name', 'input_type', 'value', 'default_value'
                                         ])->where('component_id', $component['component_id'])->get();
-                                        $component['style'][$layoutType->name] = $getComponentsStyle;
+                                        $newStyle = [];
+                                        foreach ($getComponentsStyle as $sty){
+                                            $sty = (array)$sty;
+                                            $newStyle[$sty['name']] = $sty['value'];
+                                        }
+//                                        dd($newStyle);
+                                        $component['style'][$layoutType->name] = $newStyle;
                                         $componentWithStyletest[] = $component;
                                     }
 
-                                    $con['components'] = $componentWithStyletest;
-                                    $dataArray[] = $con;
+                                    $finalCon['components'] = $componentWithStyletest;
+                                    $dataArray[] = $finalCon;
                                 }
                             }
                         }
