@@ -237,6 +237,7 @@ class ApiController extends Controller
 //                        dd($dataArray);
 //                        $finalData['global_cobfig'] =  $dataArray;
 //                        $finalData['global_cobfig'][] =  $dataArray;
+                        $finalData['global_config'] = $xxx;
 
                     }
                 }
@@ -335,8 +336,8 @@ class ApiController extends Controller
                     'url' => $request->getUri(),
                     'method' => $request->getMethod(),
                     'message' => 'Data Found',
-//                    'data' => $finalData,
-                    'data' => $xxx
+                    'data' => $finalData,
+//                    'data' => $xxx
                 ], Response::HTTP_OK);
                 $response->headers->set('Content-Type', 'application/json');
                 return $response;
