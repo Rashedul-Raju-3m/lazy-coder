@@ -148,8 +148,9 @@ class ApiController extends Controller
                 $finalData = [];
                 $finalData['theme_name'] = $data->name;
                 $finalData['theme_status'] = 'active';
-
+                $xxx = [];
                 if ($data){
+
                     foreach ($data['globalConfig'] as $config){
                         if (isset($config['mode']) && !empty($config['mode'])) {
                             $configData = DB::table('appfiy_global_config')->select([
@@ -186,7 +187,7 @@ class ApiController extends Controller
                                     ];
 //                                    $con['is_active'] = 'no';
                                     if ($con['id'] == $config['global_config_id']) {
-                                        $finalCon['is_active'] = 'yes';
+                                        $finalCon['general']['is_active'] = 'yes';
                                     }
                                     $getComponents = DB::table('appfiy_global_config_component')
                                         ->join('appfiy_component', 'appfiy_component.id', '=', 'appfiy_global_config_component.component_id')
@@ -227,11 +228,15 @@ class ApiController extends Controller
 
                                     $finalCon['components'] = $componentWithStyletest;
                                     $dataArray[] = $finalCon;
+                                    $xxx[] = $finalCon;
                                 }
                             }
                         }
-                        $config[$config['mode'].'_layouts'] = $dataArray;
-                        $finalData['global_cobfig'][$config['mode'].'_layouts'] =  $dataArray;
+//                        $config[$config['mode'].'_layouts'] = $dataArray;
+
+//                        dd($dataArray);
+//                        $finalData['global_cobfig'] =  $dataArray;
+//                        $finalData['global_cobfig'][] =  $dataArray;
 
                     }
                 }
@@ -330,7 +335,8 @@ class ApiController extends Controller
                     'url' => $request->getUri(),
                     'method' => $request->getMethod(),
                     'message' => 'Data Found',
-                    'data' => $finalData
+//                    'data' => $finalData,
+                    'data' => $xxx
                 ], Response::HTTP_OK);
                 $response->headers->set('Content-Type', 'application/json');
                 return $response;

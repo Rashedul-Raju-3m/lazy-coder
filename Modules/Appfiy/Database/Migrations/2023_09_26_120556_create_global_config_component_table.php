@@ -17,7 +17,7 @@ class CreateGlobalConfigComponentTable extends Migration
             $table->id();
             $table->unsignedBigInteger('global_config_id')->unsigned()->nullable();
             $table->unsignedBigInteger('component_id')->unsigned()->nullable();
-            $table->integer('component_position')->default(0);
+            $table->string('component_position',255)->nullable();
             $table->timestamps();
             $table->foreign('global_config_id')->references('id')->on('appfiy_global_config')->onDelete('cascade');
             $table->foreign('component_id')->references('id')->on('appfiy_component')->onDelete('cascade');
