@@ -5,11 +5,11 @@
     <!-- meta item -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="{{ __('messages.Exam') }}">
-    <meta name="author" content="{{ __('messages.Exam') }}">
+    <meta name="description" content="{{ __('messages.LazyCoder') }}">
+    <meta name="author" content="{{ __('messages.LazyCoder') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ __('messages.Exam') }}</title>
+    <title>{{ __('messages.LazyCoder') }}</title>
 
     <!-- Favicons -->
     {{--<link rel="apple-touch-icon" href="{{ asset('assets/backend/image/favicons/servay.png') }}" sizes="180x180">
@@ -36,7 +36,7 @@
     </div>
 </div>--}}
 
-@include('layouts.nav1')
+@include('layouts.nav')
 
 
 <div class="container-wide">

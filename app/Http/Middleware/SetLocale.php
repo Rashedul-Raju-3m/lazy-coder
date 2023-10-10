@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 
 class SetLocale
 {
@@ -16,15 +17,16 @@ class SetLocale
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    private $locales = ['ar', 'en'];
-    public function handle($request, Closure $next, $locale)
+    private $locales = ['ar', 'en', 'bn'];
+    public function handle($request, Closure $next)
     {
 
-        if (array_search($locale, $this->locales) === false) {
-            return redirect('/');
+        if (array_search($request->segment(1), $this->locales) === false) {
+            return redirect('/en/home');
         }
+        URL::defaults(['locale' => $request->segment(1)]);
 
-        App::setLocale($locale);
+        App::setLocale($request->segment(1));
 
         return $next($request);
     }

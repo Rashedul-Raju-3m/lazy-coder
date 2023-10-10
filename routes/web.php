@@ -35,9 +35,13 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::group(['prefix' => '{locale}',
-    'where' => ['locale' => '[a-zA-Z]{2}'],
-    'middleware' => 'setlocale'], function() {
+//Route::get('/{locale}/admin-dashboard', [HomeController::class, 'index'])->name('admin-dashboard');
+
+//Route::get('/{locale}/home', [HomeController::class, 'index'])->name('home');
+Route::prefix('{locale}')
+    ->where(['locale' => '[a-zA-Z]{2}'])
+    ->middleware('setlocale')
+    ->group(function () {
 
     Route::get('/admin-dashboard', [HomeController::class, 'index'])->name('admin-dashboard');
 

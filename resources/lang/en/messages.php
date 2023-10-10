@@ -13,7 +13,11 @@ return [
     |
     */
 
-    'previous' => '&laquo; Previous',
-    'next' => 'Next &raquo;',
+    'LazyCoder' => 'Lazy Coder',
+    'component' => 'Component',
+    'newComponent' => 'New Component',
+    'listComponent' => ' Component List',
+    'dashboard' => ' Dashboard',
+    'youAreLogin' => ' You are logged in !',
 
 ];

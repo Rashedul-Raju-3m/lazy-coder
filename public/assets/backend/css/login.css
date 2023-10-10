@@ -1,9 +1,9 @@
 /*login page*/
 body{background: #eee url(http://subtlepatterns.com/patterns/sativa.png);}
-/*html,body{
+html,body{
     position: relative;
     height: 100%;
-}*/
+}
 .logo-img{
 	border-radius: 50%;
 	width: 100%;
