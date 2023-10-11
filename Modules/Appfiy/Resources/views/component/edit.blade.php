@@ -210,11 +210,18 @@
                                             {!! Form::label(__('appfiy::messages.layoutType'), __('appfiy::messages.layoutType'), array('class' => 'form-label','for'=>'formFile')) !!}
                                         </div>
 
+{{--                                        {{isset($componentLayoutsArray) && count($componentLayoutsArray)?dd('ok'):dd('mm')}}--}}
+
                                         <div class="col-sm-10">
                                             @if(isset($layoutTypes) && count($layoutTypes)>0)
                                                 @foreach($layoutTypes as $layout)
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" name="layout[]" type="checkbox" id="{{$layout->slug}}" value="{{$layout->id}}" {{in_array($layout->id,$componentLayoutsArray)?'checked':''}}>
+                                                        <input class="form-check-input" name="layout[]" type="checkbox" id="{{$layout->slug}}" value="{{$layout->id}}"
+{{--                                                            {{(isset($componentLayoutsArray) && count($componentLayoutsArray)>0)?(in_array($layout->id,$componentLayoutsArray)?'checked':''):''}}--}}
+                                                            @if(isset($componentLayoutsArray) && count($componentLayoutsArray)>0)
+                                                                {{in_array($layout->id,$componentLayoutsArray)?'checked':''}}
+                                                            @endif
+                                                        >
                                                         <label class="form-check-label" for="{{$layout->slug}}">{{$layout->name}}</label>
                                                     </div>
                                                 @endforeach
@@ -235,7 +242,12 @@
                                             @if(isset($scopes) && count($scopes)>0)
                                                 @foreach($scopes as $scope)
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" name="scope[]" type="checkbox" id="{{$scope}}" value="{{$scope}}" {{in_array($scope,$scopeArray)?'checked':''}}>
+                                                        <input class="form-check-input" name="scope[]" type="checkbox" id="{{$scope}}" value="{{$scope}}"
+{{--                                                            {{in_array($scope,$scopeArray)?'checked':''}}--}}
+                                                        @if(isset($scopeArray) && count($scopeArray)>0)
+                                                            {{in_array($scope,$scopeArray)?'checked':''}}
+                                                            @endif
+                                                        >
                                                         <label class="form-check-label" for="{{$scope}}">{{$scope}}</label>
                                                     </div>
                                                 @endforeach

@@ -28,7 +28,11 @@ class ComponentController extends Controller
      */
     public function index()
     {
-        $components = Component::where('is_active',1)->paginate(10);
+        $deleteComponent = Component::whereNull('slug')->first();
+        if (isset($deleteComponent)){
+            $deleteComponent->delete();
+        }
+        $components = Component::where('is_active',1)->orderBy('id','DESC')->paginate(10);
         return view('appfiy::component/index',['components'=>$components]);
     }
 
