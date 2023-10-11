@@ -214,7 +214,7 @@
                                             @if(isset($layoutTypes) && count($layoutTypes)>0)
                                                 @foreach($layoutTypes as $layout)
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" name="layout[]" type="checkbox" id="{{$layout->slug}}" value="{{$layout->id}}">
+                                                        <input class="form-check-input" name="layout[]" type="checkbox" id="{{$layout->slug}}" value="{{$layout->id}}" {{in_array($layout->id,$componentLayoutsArray)?'checked':''}}>
                                                         <label class="form-check-label" for="{{$layout->slug}}">{{$layout->name}}</label>
                                                     </div>
                                                 @endforeach

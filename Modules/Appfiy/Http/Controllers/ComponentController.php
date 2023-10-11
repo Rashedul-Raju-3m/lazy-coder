@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Modules\Appfiy\Entities\Component;
+use Modules\Appfiy\Entities\ComponentLayout;
+use Modules\Appfiy\Entities\ComponentProperties;
 use Modules\Appfiy\Entities\LayoutType;
 use Modules\Appfiy\Entities\LayoutTypeProperties;
 use Modules\Quran\Entities\Ayat;
@@ -75,6 +77,14 @@ class ComponentController extends Controller
     public function edit($ln,$id){
         $data = Component::find($id);
         $layoutTypes = LayoutType::where('is_active',1)->get();
+        $componentLayouts = ComponentLayout::where('component_id',$id)->get()->toArray();
+
+        $componentLayoutsArray = [];
+        if (isset($componentLayouts) && count($componentLayouts)>0){
+            foreach ($componentLayouts as $lay){
+                array_push($componentLayoutsArray,$lay['layout_type_id']);
+            }
+        }
         $scopes = [
             'appbar' => 'appbar',
             'navbar' => 'navbar',
@@ -82,7 +92,7 @@ class ComponentController extends Controller
             'button' => 'button',
             'home-page' => 'home-page',
         ];
-        return view('appfiy::component/edit',['data'=>$data,'layoutTypes'=>$layoutTypes,'scopes'=>$scopes]);
+        return view('appfiy::component/edit',['data'=>$data,'layoutTypes'=>$layoutTypes,'scopes'=>$scopes,'componentLayoutsArray'=>$componentLayoutsArray]);
     }
 
     /**
@@ -92,10 +102,6 @@ class ComponentController extends Controller
      * @return Renderable
      */
     public function update(Request $request,$ln, $id){
-//        dd($request->all(),$ln,$id);
-
-//        'name', 'slug', 'label', 'layout_type', 'icon_code', 'event', 'scope', 'class_type','app_icon','web_icon','image
-
         $this->validate($request, [
             'name' => 'required|unique:appfiy_component,name,'.$id,
             'label' => 'required',
@@ -175,12 +181,11 @@ class ComponentController extends Controller
         try {
             $component->update($input);
             $component->save();
-            DB::commit();
 
             if (isset($input['layout'])){
                 foreach ($input['layout'] as $layout){
-//                    dd($layout);
-                    $layoutProperties = LayoutTypeProperties::where('appfiy_layout_type_group_style',$layout)->where('appfiy_layout_type_style_properties.is_active')
+                    $layoutProperties = LayoutTypeProperties::where('appfiy_layout_type_group_style.layout_type_id',$layout)
+                                        ->where('appfiy_layout_type_style_properties.is_active',1)
                                         ->join('appfiy_layout_type_group_style','appfiy_layout_type_group_style.property_id','=','appfiy_layout_type_style_properties.id')
                                         ->select([
                                             'appfiy_layout_type_style_properties.name',
@@ -189,23 +194,81 @@ class ComponentController extends Controller
                                             'appfiy_layout_type_style_properties.default_value',
                                         ])
                                         ->get();
-                    dd($layoutProperties);
+
+                    $componentLayoutsExists = ComponentLayout::where('component_id',$id)->get()->toArray();
+                    $componentLayoutsArray = [];
+                    if (isset($componentLayoutsExists) && count($componentLayoutsExists)>0){
+                        foreach ($componentLayoutsExists as $lay){
+                            array_push($componentLayoutsArray,$lay['layout_type_id']);
+                        }
+                    }
+                    $insertLayoutArray = array_diff($input['layout'],$componentLayoutsArray);
+                    $deleteArrayList = array_diff($componentLayoutsArray, $input['layout']);
+                    if (isset($deleteArrayList) && count($deleteArrayList)>0){
+                        foreach ($deleteArrayList as $deleteID){
+                            ComponentLayout::where('component_id',$id)->where('layout_type_id',$deleteID)->first()->delete();
+                            $deleteProperties = ComponentProperties::where('component_id',$id)->where('layout_type_id',$deleteID)->get();
+                            if (isset($deleteProperties) && count($deleteProperties)>0){
+                                foreach ($deleteProperties as $delP){
+                                    $delP->delete();
+                                }
+                            }
+                        }
+                    }
+                    if (isset($insertLayoutArray) && count($insertLayoutArray)>0){
+                        foreach ($insertLayoutArray as $layId){
+                            ComponentLayout::create([
+                                'component_id' => $id,
+                                'layout_type_id' => $layId
+                            ]);
+                            if (isset($layoutProperties) && count($layoutProperties)>0) {
+                                foreach ($layoutProperties as $pro) {
+                                    ComponentProperties::create([
+                                        'component_id' => $id,
+                                        'layout_type_id' => $layId,
+                                        'name' => $pro->name,
+                                        'input_type' => $pro->input_type,
+                                        'value' => $pro->value,
+                                        'default_value' => $pro->default_value,
+                                    ]);
+                                }
+                            }
+                        }
+                    }
                 }
             }
+            DB::commit();
 
-            dd($input['layout']);
-            dd('ok');
-
-
-            Session::flash('message',__('quran::messages.Create Message'));
-            return redirect()->route('ayat_list', app()->getLocale());
-
+            if ($id){
+                return redirect()->route('component_properties_edit', [app()->getLocale(),$id]);
+            }
+//            Session::flash('message',__('quran::messages.Create Message'));
         } catch (\Exception $e) {
             DB::rollback();
             print($e->getMessage());
             exit();
             Session::flash('danger', $e->getMessage());
         }
+    }
+
+    public function editComponentProperties($ln,$id){
+        $component = Component::find($id);
+        $componentLayout = ComponentLayout::join('appfiy_layout_type','appfiy_layout_type.id','=','appfiy_component_layout.layout_type_id')
+                                            ->select(['appfiy_layout_type.name','appfiy_layout_type.slug'])
+                                            ->where('appfiy_component_layout.component_id',$id)
+                                            ->get()->toArray();
+        $componentLayoutProperties = ComponentProperties::where('appfiy_component_style_properties.component_id',$id)
+                                    ->select([
+                                        'appfiy_component_style_properties.name',
+                                        'appfiy_component_style_properties.value',
+                                        'appfiy_component_style_properties.default_value',
+                                        'appfiy_component_style_properties.input_type',
+                                        'appfiy_layout_type.name as layout_type_name',
+                                    ])
+                                    ->join('appfiy_layout_type','appfiy_layout_type.id','=','appfiy_component_style_properties.layout_type_id')
+                                    ->get();
+//        dd($componentLayoutProperties);
+        return view('appfiy::component/properties_edit',['component'=>$component,'componentLayout'=>$componentLayout,'componentLayoutProperties'=>$componentLayoutProperties]);
     }
 
     /**

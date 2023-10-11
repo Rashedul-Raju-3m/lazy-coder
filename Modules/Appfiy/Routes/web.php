@@ -15,8 +15,7 @@ Route::prefix('{locale}/appfiy')->group(function() {
 //        Route::POST('/component/store',[ComponentController::class,'store'])->name('component_store');
         Route::get('/component/edit/{id}',[ComponentController::class, 'edit'])->name('component_edit');
         Route::PATCH('/component/update/{id}',[ComponentController::class, 'update'])->name('component_update');
-
-
+        Route::get('/component/properties/edit/{id}',[ComponentController::class, 'editComponentProperties'])->name('component_properties_edit');
     /*COMPONENT ROUTE END*/
 
     /*LAYOUT TYPE ROUTE START*/

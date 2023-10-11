@@ -47,6 +47,9 @@ return [
         'isMultiple' => 'Is Multiple',
         'IsActive' => 'Is Active',
         'componentNameMustbeUnique' => 'Component name must be unique',
+        'componentInformation' => 'Component information',
+        'componentPropertiesUpdate' => 'Component properties update',
+        'propertiesName' => 'Properties name',
     /*
     |--------------------------------------------------------------------------
     | Component language End
