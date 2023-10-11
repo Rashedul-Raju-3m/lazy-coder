@@ -23,11 +23,12 @@ return [
     'event' => 'Event',
     'scope' => 'Scope',
     'list' => 'List',
+    'image' => 'Image',
 
 
     /*
     |--------------------------------------------------------------------------
-    | Employee language Start
+    | Component language Start
     |--------------------------------------------------------------------------
     */
         'componentList' => 'Component List',
@@ -37,9 +38,18 @@ return [
         'enterComponentLabel' => 'Enter component label',
         'iconName' => 'Icon Name',
         'enterIconName' => 'Enter icon name',
+        'EnterEvent' => 'Enter event',
+        'EnterScope' => 'Enter scope',
+        'EnterClassType' => 'Enter class type',
+        'classType' => 'Class Type',
+        'appIcon' => 'App Icon',
+        'webIcon' => 'Web Icon',
+        'isMultiple' => 'Is Multiple',
+        'IsActive' => 'Is Active',
+        'componentNameMustbeUnique' => 'Component name must be unique',
     /*
     |--------------------------------------------------------------------------
-    | Employee language End
+    | Component language End
     |--------------------------------------------------------------------------
     */
 

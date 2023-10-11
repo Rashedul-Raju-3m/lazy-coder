@@ -33,7 +33,7 @@
                         @include('layouts.message')
                         <div class="row">
                             <div class="col-md-12">
-{{--                                {!! Form::model($employee, ['method' => 'PATCH','autocomplete'=>'off', 'files'=> true, 'route'=> ['employee_update',app()->getLocale(), $employee->id],'enctype'=>'multipart/form-data']) !!}--}}
+                                {!! Form::model($data, ['method' => 'PATCH','autocomplete'=>'off', 'files'=> true, 'route'=> ['component_update',app()->getLocale(), $data->id],'enctype'=>'multipart/form-data']) !!}
 
                                 <div class="row">
 
@@ -65,157 +65,61 @@
                                             <span class="textRed">*</span>
                                         </div>
 
-                                        <div class="col-sm-10">
+                                        <div class="col-sm-4">
                                             {!! Form::text('icon_code', null, array('class' => 'form-control ','placeholder'=>__('appfiy::messages.enterIconName'))) !!}
                                             <span class="textRed">{!! $errors->first('icon_code') !!}</span>
                                         </div>
-                                    </div>
 
-                                    <div class="form-group row mg-top">
                                         <div class="col-sm-2">
-                                            <label for="" class="form-label">{{__('appfiy::messages.employeeId')}}</label>
-{{--                                            <span class="textRed">*</span>--}}
-                                        </div>
-
-                                        <div class="col-sm-10">
-                                            {!! Form::text('employee_id', null, array('class' => 'form-control ','placeholder'=>__('appfiy::messages.employeeIdpLC'))) !!}
-                                            <span class="textRed">{!! $errors->first('employee_id') !!}</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row mg-top">
-                                        <div class="col-sm-2">
-                                            <label for="" class="form-label">{{__('appfiy::messages.mobile')}}</label>
+                                            <label for="" class="form-label">{{__('appfiy::messages.event')}}</label>
                                             <span class="textRed">*</span>
                                         </div>
 
                                         <div class="col-sm-4">
-                                            {!! Form::text('mobile', null, array('class' => 'form-control ','placeholder'=>__('appfiy::messages.mobilePlc'))) !!}
-                                            <span class="textRed">{!! $errors->first('mobile') !!}</span>
-                                        </div>
-
-                                        <div class="col-sm-2">
-                                            <label for="" class="form-label">{{__('appfiy::messages.country')}}</label>
-                                            <span class="textRed">*</span>
-                                        </div>
-
-                                        {{--<div class="col-sm-4">
-                                            {!! Form::select('country_id',$countries,$employee->country_id,['id'=>'country_id','class' => 'form-control form-select js-appfiyple-basic-single','placeholder'=>__('appfiy::messages.selectCountry')]) !!}
-                                            <span class="textRed">{!! $errors->first('country_id') !!}</span>
-                                        </div>--}}
-                                    </div>
-
-                                    {{--<div class="form-group row mg-top">
-                                        <div class="col-sm-2">
-                                            <label for="" class="form-label">{{__('appfiy::messages.email')}}</label>
---}}{{--                                            <span class="textRed">*</span>--}}{{--
-                                        </div>
-
-                                        <div class="col-sm-10">
-                                            {!! Form::text('email', null, array('class' => 'form-control ','placeholder'=>__('appfiy::messages.emailPlc'))) !!}
-                                            <span class="textRed">{!! $errors->first('email') !!}</span>
-                                        </div>
-                                    </div>--}}
-
-
-                                    <div class="form-group row mg-top">
-                                        <div class="col-sm-2">
-                                            <label for="" class="form-label">{{__('appfiy::messages.presentAdd')}}</label>
-                                            {{--<span class="textRed">*</span>--}}
-                                        </div>
-
-                                        <div class="col-sm-10">
-                                            {!! Form::textarea('present_address', null, array('class' => 'form-control ','placeholder'=>__('appfiy::messages.presentAddPlc'),'rows'=>3)) !!}
-                                            {{--<span class="textRed">{!! $errors->first('present_address') !!}</span>--}}
+                                            {!! Form::text('event', null, array('class' => 'form-control ','placeholder'=>__('appfiy::messages.EnterEvent'))) !!}
+                                            <span class="textRed">{!! $errors->first('event') !!}</span>
                                         </div>
                                     </div>
 
                                     <div class="form-group row mg-top">
-                                        <div class="col-sm-2">
-                                            <label for="" class="form-label">{{__('appfiy::messages.permanentAdd')}}</label>
-                                        </div>
-
-                                        <div class="col-sm-10">
-                                            {!! Form::textarea('permanent_address', null, array('class' => 'form-control ','placeholder'=>__('appfiy::messages.permanentAddPlc'),'rows'=>3)) !!}
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row mg-top">
-                                        <div class="col-sm-2">
-                                            <label for="" class="form-label">{{__('appfiy::messages.education')}}</label>
-                                        </div>
-
-                                        <div class="col-sm-10">
-                                            {!! Form::textarea('education', null, array('class' => 'form-control ','placeholder'=>__('appfiy::messages.educationPlc'),'rows'=>3)) !!}
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row mg-top">
-                                        <div class="col-sm-2">
-                                            <label for="" class="form-label">{{__('appfiy::messages.designation')}}</label>
-                                            <span class="textRed">*</span>
-                                        </div>
-
-                                        {{--<div class="col-sm-3">
-                                            <a class="displayNone" id="createRouteforauthor"
-                                               data-href="{{ route('create_desig_dept_pbs',app()->getLocale()) }}">
-                                            </a>
-                                            {!! Form::select('designation_id',$designation,$employee->designation_id,['id'=>'designation_id','class' => 'form-control form-select js-appfiyple-basic-single','placeholder'=>__('appfiy::messages.selectDesignation')]) !!}
-                                            <span class="textRed">{!! $errors->first('designation_id') !!}</span>
-                                        </div>--}}
-
-                                        <div class="col-sm-1">
-                                            <button type="button" class="btn btn-sm btn-primary height29 modelShow" modelName="designation" >
-                                                <i class="fas fa-plus-circle"></i>
-                                            </button>
-                                        </div>
 
                                         <div class="col-sm-2">
-                                            <label for="" class="form-label">{{__('appfiy::messages.location')}}</label>
-                                            <span class="textRed">*</span>
-                                        </div>
-
-                                        {{--<div class="col-sm-3">
-                                            {!! Form::select('location_id',$location,$employee->location_id,['id'=>'location_id','class' => 'form-control form-select js-appfiyple-basic-single','placeholder'=>__('appfiy::messages.selectLocation')]) !!}
-                                            <span class="textRed">{!! $errors->first('location_id') !!}</span>
-                                        </div>--}}
-
-                                        <div class="col-sm-1">
-                                            <button type="button" class="btn btn-sm btn-primary height29 modelShow" modelName="location">
-                                                <i class="fas fa-plus-circle"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row mg-top">
-                                        <div class="col-sm-2">
-                                            <label for="" class="form-label">{{__('appfiy::messages.department')}}</label>
+                                            <label for="" class="form-label">{{__('appfiy::messages.classType')}}</label>
 {{--                                            <span class="textRed">*</span>--}}
                                         </div>
 
-                                        {{--<div class="col-sm-3">
-                                            {!! Form::select('department_id',$department,$employee->department_id,['id'=>'department_id','class' => 'form-control form-select js-appfiyple-basic-single','placeholder'=>__('appfiy::messages.selectDepartment')]) !!}
-                                            <span class="textRed">{!! $errors->first('department_id') !!}</span>
-                                        </div>--}}
-
-                                        <div class="col-sm-1">
-                                            <button type="button" class="btn btn-sm btn-primary height29 modelShow" modelName="department">
-                                                <i class="fas fa-plus-circle"></i>
-                                            </button>
+                                        <div class="col-sm-10">
+                                            {!! Form::text('class_type', null, array('class' => 'form-control ','placeholder'=>__('appfiy::messages.EnterClassType'))) !!}
+{{--                                            <span class="textRed">{!! $errors->first('class_type') !!}</span>--}}
                                         </div>
-
-                                        <div class="col-sm-2">
-                                            {!! Form::label(__('appfiy::messages.joinDate'),__('appfiy::messages.joinDate'), array('class' => 'form-label','for'=>'formFile')) !!}
-                                        </div>
-
-                                        {{--<div class="col-sm-4">
-                                            {{ Form::date('join_date',$employee->join_date,['id'=>'join_date','class' => 'form-control height28']) }}
-                                            <span class="textRed">{!! $errors->first('join_date') !!}</span>
-                                        </div>--}}
                                     </div>
 
 
+                                    <div class="form-group row mg-top">
+                                        <div class="col-sm-2">
+                                            {!! Form::label(__('appfiy::messages.appIcon'), __('appfiy::messages.appIcon'), array('class' => 'form-label','for'=>'formFile')) !!}
+                                        </div>
 
+                                        <div class="col-sm-10">
+                                            <input class="form-control" name="app_icon" type="file" id="app_icon" accept="image/*">
+                                            @if(isset($data->app_icon))
+                                                <span class="imageText">{{$data->app_icon}}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row mg-top">
+                                        <div class="col-sm-2">
+                                            {!! Form::label(__('appfiy::messages.webIcon'), __('appfiy::messages.webIcon'), array('class' => 'form-label','for'=>'formFile')) !!}
+                                        </div>
+
+                                        <div class="col-sm-10">
+                                            <input class="form-control" name="web_icon" type="file" id="web_icon" accept="image/*">
+                                            @if(isset($data->web_icon))
+                                                <span class="imageText">{{$data->web_icon}}</span>
+                                            @endif
+                                        </div>
+                                    </div>
 
                                     <div class="form-group row mg-top">
                                         <div class="col-sm-2">
@@ -224,40 +128,122 @@
 
                                         <div class="col-sm-10">
                                             <input class="form-control" name="image" type="file" id="image" accept="image/*">
-                                            @if(isset($employee->image))
-                                                <span class="imageText">{{$employee->image}}</span>
+                                            @if(isset($data->image))
+                                                <span class="imageText">{{$data->image}}</span>
                                             @endif
                                         </div>
                                     </div>
-
 
                                     <div class="form-group row mg-top">
                                         <div class="col-sm-2">
-                                            {!! Form::label(__('appfiy::messages.signature'), __('appfiy::messages.image'), array('class' => 'form-label','for'=>'formFile')) !!}
+                                            <label for="" class="form-label">{{__('appfiy::messages.isMultiple')}}</label>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="from-group">
+                                                <?php
+                                                $Active = '';
+                                                $Inactive = '';
+                                                if (isset($data->is_multiple)){
+                                                    if ($data->is_multiple == 1){
+                                                        $Active = 'checked="checked"';
+                                                    }else{
+                                                        $Inactive = 'checked="checked"';
+                                                    }
+                                                }else{
+                                                    $Inactive = 'checked="checked"';
+                                                }
+                                                ?>
+                                                <div class="input-group mb-3">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input isChecked ayatFormEdit" type="radio" name="is_multiple" id="is_multiple1" value="1" {{$Active}}>
+                                                        <label class="form-check-label" for="is_multiple1">Yes</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input isChecked ayatFormEdit" type="radio" name="is_multiple" id="is_multiple2" value="0" {{$Inactive}}>
+                                                        <label class="form-check-label" for="is_multiple2">No</label>
+                                                    </div>
+                                                    <span class="textRed">{!! $errors->first('is_multiple') !!}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group row mg-top">
+                                        <div class="col-sm-2">
+                                            <label for="" class="form-label">{{__('appfiy::messages.IsActive')}}</label>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="from-group">
+                                                <?php
+                                                $Active = '';
+                                                $Inactive = '';
+                                                if (isset($data->is_active)){
+                                                    if ($data->is_active == 1){
+                                                        $Active = 'checked="checked"';
+                                                    }else{
+                                                        $Inactive = 'checked="checked"';
+                                                    }
+                                                }else{
+                                                    $Inactive = 'checked="checked"';
+                                                }
+                                                ?>
+                                                <div class="input-group mb-3">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input isChecked " type="radio" name="is_active" id="inlineRadioActive1" value="1" {{$Active}}>
+                                                        <label class="form-check-label" for="inlineRadioActive1">Yes</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input isChecked ayatFormEdit" type="radio" name="is_active" id="inlineRadioActive2" value="0" {{$Inactive}}>
+                                                        <label class="form-check-label" for="inlineRadioActive2">No</label>
+                                                    </div>
+                                                    <span class="textRed">{!! $errors->first('is_multiple') !!}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row mg-top">
+                                        <div class="col-sm-2">
+                                            {!! Form::label(__('appfiy::messages.layoutType'), __('appfiy::messages.layoutType'), array('class' => 'form-label','for'=>'formFile')) !!}
                                         </div>
 
                                         <div class="col-sm-10">
-                                            <input class="form-control" name="signature" type="file" id="image" accept="image/*">
-                                            @if(isset($employee->signature))
-                                                <span class="imageText">{{$employee->signature}}</span>
+                                            @if(isset($layoutTypes) && count($layoutTypes)>0)
+                                                @foreach($layoutTypes as $layout)
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" name="layout[]" type="checkbox" id="{{$layout->slug}}" value="{{$layout->id}}">
+                                                        <label class="form-check-label" for="{{$layout->slug}}">{{$layout->name}}</label>
+                                                    </div>
+                                                @endforeach
                                             @endif
                                         </div>
                                     </div>
 
-
-                                    {{--<div class="row mg-top">
-                                        <div class="form-group row">
-                                            <div class="col-sm-2">
-                                                {!! Form::label(__('messages.userRole'), __('messages.userRole'), array('class' => 'col-form-label')) !!}
-                                                <span class="textRed">*</span>
-                                            </div>
-
-                                            <div class="col-sm-10">
-                                                {!! Form::select('roles[]',$roles,$userRole,['id'=>'roles','multiple'=>'multiple','class' => 'form-select js-appfiyple-basic-multiple form-control']) !!}
-                                                <span class="textRed">{!! $errors->first('roles') !!}</span>
-                                            </div>
+                                    <div class="form-group row mg-top">
+                                        <div class="col-sm-2">
+                                            <label for="" class="form-label">{{__('appfiy::messages.scope')}}</label>
+                                            <span class="textRed">*</span>
                                         </div>
-                                    </div>--}}
+
+                                        <div class="col-sm-10">
+                                            @php
+                                                $scopeArray = json_decode($data['scope']);
+                                            @endphp
+                                            @if(isset($scopes) && count($scopes)>0)
+                                                @foreach($scopes as $scope)
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" name="scope[]" type="checkbox" id="{{$scope}}" value="{{$scope}}" {{in_array($scope,$scopeArray)?'checked':''}}>
+                                                        <label class="form-check-label" for="{{$scope}}">{{$scope}}</label>
+                                                    </div>
+                                                @endforeach
+                                            <br><span class="textRed">{!! $errors->first('scope') !!}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+
 
                                     <div class="row mg-top">
                                         <div class="col-md-2"></div>
@@ -272,7 +258,7 @@
 
                                 </div>
 
-{{--                                {!! Form::close() !!}--}}
+                                {!! Form::close() !!}
                             </div>
                         </div>
                     </div>
@@ -335,14 +321,14 @@
 
 @section('footer.scripts')
 
-    <script src="{{Module::asset('quran:js/sura-datatable.js')}}"></script>
+{{--    <script src="{{Module::asset('quran:js/sura-datatable.js')}}"></script>--}}
     <script type="text/javascript">
         $(function () {
-            $(document).on("change", ".isChecked", function (e) {
+            /*$(document).on("change", ".isChecked", function (e) {
                 e.preventDefault();
-            });
+            });*/
             /* DESIGNATION ADD */
-            $(document).delegate('.modelShow','click',function(){
+            /*$(document).delegate('.modelShow','click',function(){
                 var modelName = $(this).attr('modelname');
                 if(modelName == 'designation'){
                     $('.modal-title').text('New Designation');
@@ -358,10 +344,10 @@
                 }
                 $("#allModalShow").modal('show');
 
-            });
+            });*/
 
             /*Data insert from model designation/location/department*/
-            $(document).delegate('.modelDataInsert','click',function(){
+            /*$(document).delegate('.modelDataInsert','click',function(){
                 var value = $('.fieldValue').val();
                 var type = $('.fieldValue').attr('fieldname');
                 var route = $('#createRouteforauthor').attr('data-href');
@@ -449,7 +435,7 @@
                     });
                     return false;
                 }
-            });
+            });*/
         });
     </script>
 

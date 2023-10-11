@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Component extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory;
 
-    protected $table = 'appfiy_component';
+    protected $table = 'appfiy_component_layout';
     public $timestamps = true;
     protected $guarded = ['id'];
-    protected $dates = ['deleted_at','created_at','updated_at'];
-    protected $fillable = ['parent_id', 'name', 'slug', 'label', 'layout_type', 'icon_code', 'event', 'scope', 'class_type','app_icon','web_icon','image'];
+    protected $dates = ['created_at','updated_at'];
+    protected $fillable = ['component_id', 'layout_type_id'];
 
     protected static function newFactory()
     {
