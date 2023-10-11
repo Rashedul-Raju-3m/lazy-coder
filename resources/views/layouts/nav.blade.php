@@ -14,8 +14,20 @@
     <div class="sidebar-body pt-20">
 
         @if(Module::has('Appfiy'))
+
+            <div class="nav-group {{ Request::is(app()->getLocale().'/appfiy/layout/type/*') ? 'show' : ''}}">
+                <div class="nav-group-label" style="font-size: 15px !important;">{{__('appfiy::messages.layoutType')}}</div>
+                <ul class="nav-sidebar">
+                    <li class="nav-item ">
+                        <a href="{{route('layout_type_list',app()->getLocale())}}" class="nav-link {{ Request::is(app()->getLocale().'/appfiy/layout/type/list') ? 'active' : ''}}"><i data-feather="arrow-right"></i><span>{{__('appfiy::messages.layoutType')}}</span></a>
+                        <a href="{{route('layout_type_properties_list', app()->getLocale())}}" class="nav-link {{ Request::is(app()->getLocale().'/appfiy/component/create') ? 'active' : ''}}"><i data-feather="arrow-right"></i><span>{{__('appfiy::messages.layoutTypeProperties')}}</span></a>
+                    </li>
+                </ul>
+            </div>
+
+
             <div class="nav-group {{ Request::is(app()->getLocale().'/appfiy/component/*') ? 'show' : ''}}">
-                <div class="nav-group-label" style="font-size: 15px !important;">{{__('messages.component')}}</div>
+                <div class="nav-group-label" style="font-size: 15px !important;">{{__('appfiy::messages.component')}}</div>
                 <ul class="nav-sidebar">
                     <li class="nav-item ">
                         <a href="{{route('component_list',app()->getLocale())}}" class="nav-link {{ Request::is(app()->getLocale().'/appfiy/component/list') ? 'active' : ''}}"><i data-feather="arrow-right"></i><span>{{__('appfiy::messages.componentList')}}</span></a>

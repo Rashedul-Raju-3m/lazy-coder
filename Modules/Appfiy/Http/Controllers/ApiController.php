@@ -218,11 +218,13 @@ class ApiController extends Controller
                                             'name', 'input_type', 'value', 'default_value'
                                         ])->where('component_id', $component['component_id'])->get();
                                         $newStyle = [];
+                                        $newtempStyle = [];
                                         foreach ($getComponentsStyle as $sty){
                                             $sty = (array)$sty;
-                                            $newStyle[$sty['name']] = $sty['value'];
+//                                            $newStyle[$sty['name']] =  $sty['value'];
+                                            $newStyle[$sty['name']] =  $sty['value'];
                                         }
-//                                        dd($newStyle);
+
                                         $componentArrange['general'] = [
                                             'component_position'=>$component['component_position'],
                                             'name'=>$component['name'],
@@ -238,7 +240,15 @@ class ApiController extends Controller
                                             'is_multiple'=>$component['is_multiple'],
                                         ];
 //                                        $component['style'][$layoutType->slug] = $newStyle;
-                                        $componentArrange['style'][$layoutType->slug] = $newStyle;
+//                                        dd($newStyle);
+                                        /*if (isset($newStyle) && !empty($newStyle)){
+                                            $componentArrange['style'][$layoutType->slug] = $newStyle;
+                                        }else{
+//                                            $componentArrange['style'][$layoutType->slug] = '{}';
+                                        }*/
+//                                        dd($newStyle);
+                                        $componentArrange['style'][$layoutType->slug] = $newStyle?$newStyle:json_decode('{}');
+
 //                                        $componentWithStyletest[] = $component;
                                         $componentWithStyletest[] = $componentArrange;
                                     }

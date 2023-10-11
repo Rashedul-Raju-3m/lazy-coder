@@ -13,6 +13,7 @@ return [
     |
     */
 
+    'component' => 'Component',
     'createNew' => 'Create New',
     'SL' => 'SL',
     'name' => 'Name',
@@ -21,6 +22,7 @@ return [
     'iconCode' => 'Icon Code',
     'event' => 'Event',
     'scope' => 'Scope',
+    'list' => 'List',
 
 
     /*
@@ -30,9 +32,42 @@ return [
     */
         'componentList' => 'Component List',
         'createComponent' => 'Create Component',
+        'componentUpdate' => 'Update Component',
+        'enterComponentName' => 'Enter component name',
+        'enterComponentLabel' => 'Enter component label',
+        'iconName' => 'Icon Name',
+        'enterIconName' => 'Enter icon name',
     /*
     |--------------------------------------------------------------------------
     | Employee language End
+    |--------------------------------------------------------------------------
+    */
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Layout Type language Start
+    |--------------------------------------------------------------------------
+    */
+        'layoutType' => 'Layout Type',
+        'layoutTypeList' => 'Layout type list',
+        'layoutTypeProperties' => 'layout Type Properties',
+    /*
+    |--------------------------------------------------------------------------
+    | Layout Type language End
+    |--------------------------------------------------------------------------
+    */
+    /*
+    |--------------------------------------------------------------------------
+    | Layout Type language Start
+    |--------------------------------------------------------------------------
+    */
+        'inputType' => 'Input Type',
+        'value' => 'Value',
+        'defaultValue' => 'Default Value',
+    /*
+    |--------------------------------------------------------------------------
+    | Layout Type language End
     |--------------------------------------------------------------------------
     */
 
