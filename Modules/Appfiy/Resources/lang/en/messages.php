@@ -50,6 +50,12 @@ return [
         'componentInformation' => 'Component information',
         'componentPropertiesUpdate' => 'Component properties update',
         'propertiesName' => 'Properties name',
+        'globalScope' => 'Global Scope',
+        'pageScope' => 'Page Scope',
+        'chooseLayoutType' => 'Choose layout type',
+        'ChooseScope' => 'Choose scope',
+        'productType' => 'Product Type',
+        'chooseProductType' => 'Choose product type',
     /*
     |--------------------------------------------------------------------------
     | Component language End

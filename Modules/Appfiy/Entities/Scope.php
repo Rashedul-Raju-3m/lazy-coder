@@ -6,18 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Component extends Model
+class Scope extends Model
 {
     use HasFactory,SoftDeletes;
 
-    protected $table = 'appfiy_component';
+    protected $table = 'appfiy_scope';
     public $timestamps = true;
     protected $guarded = ['id'];
     protected $dates = ['deleted_at','created_at','updated_at'];
-    protected $fillable = ['parent_id', 'name', 'slug', 'label', 'layout_type', 'icon_code', 'event', 'scope', 'class_type','app_icon','web_icon','image','product_type'];
+    protected $fillable = ['name', 'slug','is_global'];
 
     protected static function newFactory()
     {
-        return \Modules\Appfiy\Database\factories\ComponentFactory::new();
+        return \Modules\Appfiy\Database\factories\ScopeFactory::new();
     }
 }

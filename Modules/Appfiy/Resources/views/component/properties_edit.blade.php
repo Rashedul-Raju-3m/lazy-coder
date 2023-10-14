@@ -91,6 +91,17 @@
                                         </div>
                                     </div>
 
+                                    <div class="form-group row mg-top">
+                                        <div class="col-sm-2 text-end">
+                                            <label for="" class="form-label">{{__('appfiy::messages.productType')}} &nbsp;&nbsp; : </label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <label for="" class="form-label">
+                                                {{$component->product_type}}
+                                            </label>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>

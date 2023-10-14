@@ -16,6 +16,7 @@ use Modules\Appfiy\Entities\ComponentLayout;
 use Modules\Appfiy\Entities\ComponentProperties;
 use Modules\Appfiy\Entities\LayoutType;
 use Modules\Appfiy\Entities\LayoutTypeProperties;
+use Modules\Appfiy\Entities\Scope;
 use Modules\Quran\Entities\Ayat;
 
 class ComponentController extends Controller
@@ -89,14 +90,16 @@ class ComponentController extends Controller
                 array_push($componentLayoutsArray,$lay['layout_type_id']);
             }
         }
-        $scopes = [
-            'appbar' => 'appbar',
-            'navbar' => 'navbar',
-            'drawer' => 'drawer',
-            'button' => 'button',
-            'home-page' => 'home-page',
-        ];
-        return view('appfiy::component/edit',['data'=>$data,'layoutTypes'=>$layoutTypes,'scopes'=>$scopes,'componentLayoutsArray'=>$componentLayoutsArray]);
+        $scopes = Scope::select(['id','name','slug','is_global'])->get()->toArray();
+
+        $scopeArray = [];
+        if (count($scopes)>0){
+            foreach ($scopes as $val){
+                $scopeArray[$val['is_global']==0?'page-scope':'global-scope'][] = $val;
+            }
+        }
+
+        return view('appfiy::component/edit',['data'=>$data,'layoutTypes'=>$layoutTypes,'componentLayoutsArray'=>$componentLayoutsArray,'scopeArrayData'=>$scopeArray]);
     }
 
     /**
@@ -111,22 +114,25 @@ class ComponentController extends Controller
             'label' => 'required',
             'icon_code' => 'required',
             'event' => 'required',
-//            'scope' => 'required',
+            'scope' => 'required',
+            'layout' => 'required',
         ],[
             'name.required' => __('appfiy::messages.enterComponentName'),
             'name.unique' => __('appfiy::messages.componentNameMustbeUnique'),
             'label.required' => __('appfiy::messages.enterComponentLabel'),
             'icon_code.required' => __('appfiy::messages.enterIconName'),
             'event.required' => __('appfiy::messages.EnterEvent'),
-            'scope.required' => __('appfiy::messages.EnterScope'),
+            'scope.required' => __('appfiy::messages.ChooseScope'),
+            'layout.required' => __('appfiy::messages.chooseLayoutType'),
         ]);
 
         $input = $request->all();
+//        dd($input);
         $input['slug'] = Str::slug($request->name);
         $input['scope'] = json_encode($input['scope']);
         $component = Component::find($id);
 
-        if ($request->file('app_icon') != '') {
+        /*if ($request->file('app_icon') != '') {
             $target_location = 'upload/component-image/';
             File::delete(public_path().'/'.$target_location.$component->app_icon);
             $avatar = $request->file('app_icon');
@@ -178,7 +184,7 @@ class ComponentController extends Controller
             move_uploaded_file($file_path,$target_file);
         }else{
             $input['image'] = $component->audio_en;
-        }
+        }*/
 
 
         DB::beginTransaction();

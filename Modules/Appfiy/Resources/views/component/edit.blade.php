@@ -94,8 +94,26 @@
                                         </div>
                                     </div>
 
-
                                     <div class="form-group row mg-top">
+
+                                        <div class="col-sm-2">
+                                            <label for="" class="form-label">{{__('appfiy::messages.productType')}}</label>
+{{--                                            <span class="textRed">*</span>--}}
+                                        </div>
+                                        @php
+                                            $dropdownValue = [
+                                                'Product' => 'Product',
+                                                'Category' => 'Category'
+                                            ];
+                                        @endphp
+
+                                        <div class="col-sm-4">
+                                            {!! Form::select('product_type',$dropdownValue, $data['product_type'], array('class' => 'form-control','placeholder'=>__('appfiy::messages.chooseProductType'))) !!}
+                                        </div>
+                                    </div>
+
+
+                                    {{--<div class="form-group row mg-top">
                                         <div class="col-sm-2">
                                             {!! Form::label(__('appfiy::messages.appIcon'), __('appfiy::messages.appIcon'), array('class' => 'form-label','for'=>'formFile')) !!}
                                         </div>
@@ -106,9 +124,9 @@
                                                 <span class="imageText">{{$data->app_icon}}</span>
                                             @endif
                                         </div>
-                                    </div>
+                                    </div>--}}
 
-                                    <div class="form-group row mg-top">
+                                    {{--<div class="form-group row mg-top">
                                         <div class="col-sm-2">
                                             {!! Form::label(__('appfiy::messages.webIcon'), __('appfiy::messages.webIcon'), array('class' => 'form-label','for'=>'formFile')) !!}
                                         </div>
@@ -119,9 +137,9 @@
                                                 <span class="imageText">{{$data->web_icon}}</span>
                                             @endif
                                         </div>
-                                    </div>
+                                    </div>--}}
 
-                                    <div class="form-group row mg-top">
+                                    {{--<div class="form-group row mg-top">
                                         <div class="col-sm-2">
                                             {!! Form::label(__('appfiy::messages.image'), __('appfiy::messages.image'), array('class' => 'form-label','for'=>'formFile')) !!}
                                         </div>
@@ -130,6 +148,81 @@
                                             <input class="form-control" name="image" type="file" id="image" accept="image/*">
                                             @if(isset($data->image))
                                                 <span class="imageText">{{$data->image}}</span>
+                                            @endif
+                                        </div>
+                                    </div>--}}
+
+                                    <div class="form-group row mg-top">
+                                        <div class="col-sm-2">
+                                            {!! Form::label(__('appfiy::messages.layoutType'), __('appfiy::messages.layoutType'), array('class' => 'form-label','for'=>'formFile')) !!}
+                                            <span class="textRed">*</span>
+                                        </div>
+
+                                        <div class="col-sm-10">
+                                            @if(isset($layoutTypes) && count($layoutTypes)>0)
+                                                @foreach($layoutTypes as $layout)
+                                                    <div class="form-check form-check-inline">
+                                                        <input style="margin-top: 0px" class="form-check-input" name="layout[]" type="checkbox" id="{{$layout->slug}}" value="{{$layout->id}}"
+                                                            @if(isset($componentLayoutsArray) && count($componentLayoutsArray)>0)
+                                                                {{in_array($layout->id,$componentLayoutsArray)?'checked':''}}
+                                                            @endif
+                                                        >
+                                                        <label class="form-check-label" for="{{$layout->slug}}">{{$layout->name}}</label>
+                                                    </div>
+                                                @endforeach
+                                            @endif
+                                                <br><span class="textRed">{!! $errors->first('layout') !!}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row mg-top">
+                                        <div class="col-sm-2">
+                                            <label for="" class="form-label">{{__('appfiy::messages.globalScope')}}</label>
+                                            <span class="textRed">*</span>
+                                        </div>
+
+                                        <div class="col-sm-10">
+                                            @php
+                                                $scopeArray = json_decode($data['scope']);
+                                            @endphp
+                                            @if(count($scopeArrayData['global-scope'])>0)
+                                                @foreach($scopeArrayData['global-scope'] as $scopeGlobal)
+                                                    <div class="form-check form-check-inline">
+                                                        <input style="margin-top: 0px" class="form-check-input" name="scope[]" type="checkbox" id="{{$scopeGlobal['slug']}}" value="{{$scopeGlobal['slug']}}"
+                                                            @if(isset($scopeArray) && count($scopeArray)>0)
+                                                                {{in_array($scopeGlobal['slug'],$scopeArray)?'checked':''}}
+                                                            @endif
+                                                        >
+                                                        <label class="form-check-label" for="{{$scopeGlobal['slug']}}">{{$scopeGlobal['name']}}</label>
+                                                    </div>
+                                                @endforeach
+                                            <br><span class="textRed">{!! $errors->first('scope') !!}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row mg-top">
+                                        <div class="col-sm-2">
+                                            <label for="" class="form-label">{{__('appfiy::messages.pageScope')}}</label>
+{{--                                            <span class="textRed">*</span>--}}
+                                        </div>
+
+                                        <div class="col-sm-10">
+                                            @php
+                                                $scopeArray = json_decode($data['scope']);
+                                            @endphp
+                                            @if(count($scopeArrayData['page-scope'])>0)
+                                                @foreach($scopeArrayData['page-scope'] as $scopePage)
+                                                    <div class="form-check form-check-inline">
+                                                        <input style="margin-top: 0px" class="form-check-input" name="scope[]" type="checkbox" id="{{$scopePage['slug']}}" value="{{$scopePage['slug']}}"
+                                                            @if(isset($scopeArray) && count($scopeArray)>0)
+                                                                {{in_array($scopePage['slug'],$scopeArray)?'checked':''}}
+                                                            @endif
+                                                        >
+                                                        <label class="form-check-label" for="{{$scopePage['slug']}}">{{$scopePage['name']}}</label>
+                                                    </div>
+                                                @endforeach
+{{--                                            <br><span class="textRed">{!! $errors->first('scope') !!}</span>--}}
                                             @endif
                                         </div>
                                     </div>
@@ -156,11 +249,11 @@
                                                 ?>
                                                 <div class="input-group mb-3">
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input isChecked ayatFormEdit" type="radio" name="is_multiple" id="is_multiple1" value="1" {{$Active}}>
+                                                        <input style="margin-top: 0px" class="form-check-input isChecked ayatFormEdit" type="radio" name="is_multiple" id="is_multiple1" value="1" {{$Active}}>
                                                         <label class="form-check-label" for="is_multiple1">Yes</label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input isChecked ayatFormEdit" type="radio" name="is_multiple" id="is_multiple2" value="0" {{$Inactive}}>
+                                                        <input style="margin-top: 0px" class="form-check-input isChecked ayatFormEdit" type="radio" name="is_multiple" id="is_multiple2" value="0" {{$Inactive}}>
                                                         <label class="form-check-label" for="is_multiple2">No</label>
                                                     </div>
                                                     <span class="textRed">{!! $errors->first('is_multiple') !!}</span>
@@ -192,67 +285,16 @@
                                                 ?>
                                                 <div class="input-group mb-3">
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input isChecked " type="radio" name="is_active" id="inlineRadioActive1" value="1" {{$Active}}>
+                                                        <input style="margin-top: 0px" class="form-check-input isChecked " type="radio" name="is_active" id="inlineRadioActive1" value="1" {{$Active}}>
                                                         <label class="form-check-label" for="inlineRadioActive1">Yes</label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input isChecked ayatFormEdit" type="radio" name="is_active" id="inlineRadioActive2" value="0" {{$Inactive}}>
+                                                        <input style="margin-top: 0px" class="form-check-input isChecked ayatFormEdit" type="radio" name="is_active" id="inlineRadioActive2" value="0" {{$Inactive}}>
                                                         <label class="form-check-label" for="inlineRadioActive2">No</label>
                                                     </div>
                                                     <span class="textRed">{!! $errors->first('is_multiple') !!}</span>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row mg-top">
-                                        <div class="col-sm-2">
-                                            {!! Form::label(__('appfiy::messages.layoutType'), __('appfiy::messages.layoutType'), array('class' => 'form-label','for'=>'formFile')) !!}
-                                        </div>
-
-{{--                                        {{isset($componentLayoutsArray) && count($componentLayoutsArray)?dd('ok'):dd('mm')}}--}}
-
-                                        <div class="col-sm-10">
-                                            @if(isset($layoutTypes) && count($layoutTypes)>0)
-                                                @foreach($layoutTypes as $layout)
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" name="layout[]" type="checkbox" id="{{$layout->slug}}" value="{{$layout->id}}"
-{{--                                                            {{(isset($componentLayoutsArray) && count($componentLayoutsArray)>0)?(in_array($layout->id,$componentLayoutsArray)?'checked':''):''}}--}}
-                                                            @if(isset($componentLayoutsArray) && count($componentLayoutsArray)>0)
-                                                                {{in_array($layout->id,$componentLayoutsArray)?'checked':''}}
-                                                            @endif
-                                                        >
-                                                        <label class="form-check-label" for="{{$layout->slug}}">{{$layout->name}}</label>
-                                                    </div>
-                                                @endforeach
-                                            @endif
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row mg-top">
-                                        <div class="col-sm-2">
-                                            <label for="" class="form-label">{{__('appfiy::messages.scope')}}</label>
-                                            <span class="textRed">*</span>
-                                        </div>
-
-                                        <div class="col-sm-10">
-                                            @php
-                                                $scopeArray = json_decode($data['scope']);
-                                            @endphp
-                                            @if(isset($scopes) && count($scopes)>0)
-                                                @foreach($scopes as $scope)
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" name="scope[]" type="checkbox" id="{{$scope}}" value="{{$scope}}"
-{{--                                                            {{in_array($scope,$scopeArray)?'checked':''}}--}}
-                                                        @if(isset($scopeArray) && count($scopeArray)>0)
-                                                            {{in_array($scope,$scopeArray)?'checked':''}}
-                                                            @endif
-                                                        >
-                                                        <label class="form-check-label" for="{{$scope}}">{{$scope}}</label>
-                                                    </div>
-                                                @endforeach
-                                            <br><span class="textRed">{!! $errors->first('scope') !!}</span>
-                                            @endif
                                         </div>
                                     </div>
 
