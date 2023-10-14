@@ -50,7 +50,6 @@ class ComponentController extends Controller
         if ($component->id){
             return redirect()->route('component_edit', [app()->getLocale(),$component->id]);
         }
-//        return view('appfiy::component/add');
     }
 
     /**

@@ -13,7 +13,17 @@ class Theme extends Model
     public $timestamps = true;
     protected $guarded = ['id'];
     protected $dates = ['deleted_at','created_at', 'updated_at'];
-    protected $fillable = ['name', 'image', 'appbar_id', 'navbar_id', 'drawer_id', 'appbar_navbar_drawer'];
+    protected $fillable = ['name','slug', 'image', 'appbar_id', 'navbar_id', 'drawer_id', 'appbar_navbar_drawer'];
+
+    public function appbar(){
+        return $this->belongsTo('Modules\Appfiy\Entities\GlobalConfig','appbar_id','id');
+    }
+    public function navbar(){
+        return $this->belongsTo('Modules\Appfiy\Entities\GlobalConfig','navbar_id','id');
+    }
+    public function drawer(){
+        return $this->belongsTo('Modules\Appfiy\Entities\GlobalConfig','drawer_id','id');
+    }
 
     public function component(){
         return $this->hasMany('Modules\Appfiy\Entities\ThemeComponent','theme_id','id');

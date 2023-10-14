@@ -108,7 +108,7 @@
                                         @endphp
 
                                         <div class="col-sm-4">
-                                            {!! Form::select('product_type',$dropdownValue, $data['product_type'], array('class' => ' form-control form-select js-example-basic-single','placeholder'=>__('appfiy::messages.chooseProductType'))) !!}
+                                            {!! Form::select('product_type',$dropdownValue, $data['product_type'], array('class' => 'form-control','placeholder'=>__('appfiy::messages.chooseProductType'))) !!}
                                         </div>
                                     </div>
 
@@ -375,8 +375,122 @@
 
 @section('footer.scripts')
 
+{{--    <script src="{{Module::asset('quran:js/sura-datatable.js')}}"></script>--}}
     <script type="text/javascript">
+        $(function () {
+            /*$(document).on("change", ".isChecked", function (e) {
+                e.preventDefault();
+            });*/
+            /* DESIGNATION ADD */
+            /*$(document).delegate('.modelShow','click',function(){
+                var modelName = $(this).attr('modelname');
+                if(modelName == 'designation'){
+                    $('.modal-title').text('New Designation');
+                    $('#modelForm').html('<input type="text" name="name" fieldName="designation" class="form-control fieldValue" placeholder="{{__('appfiy::messages.modelEnterDesig')}}" id="newDesignation">');
+                }
+                if (modelName == 'location'){
+                    $('.modal-title').text('New Location');
+                    $('#modelForm').html('<input type="text" name="name" fieldName="location" class="form-control fieldValue" placeholder="{{__('appfiy::messages.modelLocation')}}" id="newLocation">');
+                }
+                if (modelName == 'department'){
+                    $('.modal-title').text('New Department');
+                    $('#modelForm').html('<input type="text" name="name" fieldName="department" class="form-control fieldValue" placeholder="{{__('appfiy::messages.modelDepartment')}}" id="newDepartment">');
+                }
+                $("#allModalShow").modal('show');
 
+            });*/
+
+            /*Data insert from model designation/location/department*/
+            /*$(document).delegate('.modelDataInsert','click',function(){
+                var value = $('.fieldValue').val();
+                var type = $('.fieldValue').attr('fieldname');
+                var route = $('#createRouteforauthor').attr('data-href');
+                var validation = true;
+
+                if (type == 'designation'){
+                    if (value == ''){
+                        Swal.fire(
+                            'Enter designation',
+                            '',
+                        )
+                        return false
+                        validation = false;
+                    }
+                }
+
+                if (type == 'location'){
+                    if (value == ''){
+                        Swal.fire(
+                            'Enter location',
+                            '',
+                        )
+                        return false
+                        validation = false;
+                    }
+                }
+
+                if (type == 'department'){
+                    if (value == ''){
+                        Swal.fire(
+                            'Enter department',
+                            '',
+                        )
+                        return false
+                        validation = false;
+                    }
+                }
+                if (validation){
+                    $.ajax({
+                        url: route,
+                        method: "get",
+                        dataType: "json",
+                        data: {value: value,type:type},
+                        beforeSend: function( xhr ) {
+
+                        }
+                    }).done(function( response ) {
+                        if (!response.exists) {
+                            var allItems = response.dropdown;
+                            var dropdownOption = '';
+                            if (response.type == '1') {
+                                var dropdownOption = '<option value="">{{__('appfiy::messages.selectDesignation')}}</option>';
+                            }
+
+                            if (response.type == '2') {
+                                var dropdownOption = '<option value="">{{__('appfiy::messages.selectDepartment')}}</option>';
+                            }
+
+                            if (response.type == '3') {
+                                var dropdownOption = '<option value="">{{__('appfiy::messages.selectLocation')}}</option>';
+                            }
+
+                            jQuery.each(allItems, function (i, item) {
+                                dropdownOption += '<option value="' + i + '">' + item + '</option>';
+                            });
+                            if (response.type == '1') {
+                                jQuery('#designation_id').html(dropdownOption);
+                            }
+                            if (response.type == '2') {
+                                jQuery('#department_id').html(dropdownOption);
+                            }
+                            if (response.type == '3') {
+                                jQuery('#location_id').html(dropdownOption);
+                            }
+
+                            $("#allModalShow").modal('hide');
+                        }else{
+                            Swal.fire(
+                                response.exists,
+                                '',
+                            )
+                        }
+                    }).fail(function( jqXHR, textStatus ) {
+
+                    });
+                    return false;
+                }
+            });*/
+        });
     </script>
 
 @endsection

@@ -221,7 +221,8 @@
                                                                 @endif
 
                                                                 @if($val['input_type'] == 'select')
-                                                                    {!! Form::select('value[]',$dropdownValue, $val['value'], array('class' => 'form-control form-select js-example-basic-single','style'=>'width:100% !important')) !!}
+{{--                                                                    {!! Form::text('rrr[]', $val->value, array('class' => 'form-control')) !!}--}}
+                                                                    {!! Form::select('value[]',$dropdownValue, $val['value'], array('class' => 'form-control')) !!}
                                                                 @endif
                                                             </td>
                                                         </tr>

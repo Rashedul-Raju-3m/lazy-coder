@@ -24,7 +24,32 @@ return [
     'scope' => 'Scope',
     'list' => 'List',
     'image' => 'Image',
+    'CreateMessage' => 'Data insert successfully',
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Component language Start
+    |--------------------------------------------------------------------------
+    */
+        'Theme' => 'Theme',
+        'themeList' => 'Theme List',
+        'appbarName' => 'Appbar Name',
+        'appbar' => 'Appbar',
+        'navbarName' => 'Navbar Name',
+        'navbar' => 'Navbar',
+        'drawerName' => 'Drawer Name',
+        'drawer' => 'Drawer',
+        'enterThemeName' => 'Enter theme name',
+        'chooseAppbar' => 'Choose appbar',
+        'chooseNavbar' => 'Choose navbar',
+        'chooseDrawer' => 'Choose drawer',
+        'themeNameMustbeUnique' => 'Theme name must be unique',
+    /*
+    |--------------------------------------------------------------------------
+    | Component language End
+    |--------------------------------------------------------------------------
+    */
 
     /*
     |--------------------------------------------------------------------------
