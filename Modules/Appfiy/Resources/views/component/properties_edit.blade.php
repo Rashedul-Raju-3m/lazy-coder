@@ -127,7 +127,7 @@
                         @include('layouts.message')
                         <div class="row">
                             <div class="col-md-12">
-                                {{--                                {!! Form::model($data, ['method' => 'PATCH','autocomplete'=>'off', 'files'=> true, 'route'=> ['component_update',app()->getLocale(), $data->id],'enctype'=>'multipart/form-data']) !!}--}}
+                                {!! Form::model($records, ['method' => 'PATCH','autocomplete'=>'off', 'files'=> true, 'route'=> ['component_properties_update',app()->getLocale(), $component->id],'enctype'=>'multipart/form-data']) !!}
 
                                 <div class="row">
 
@@ -137,23 +137,28 @@
                                                 <th>{{__('appfiy::messages.layoutType')}}</th>
                                                 <th>{{__('appfiy::messages.propertiesName')}}</th>
                                                 <th>{{__('appfiy::messages.value')}}</th>
-                                                <th>{{__('appfiy::messages.defaultValue')}}</th>
+{{--                                                <th>{{__('appfiy::messages.defaultValue')}}</th>--}}
                                             </thead>
-                                            @if(isset($componentLayoutProperties) && count($componentLayoutProperties)>0)
+                                            @if(count($records)>0)
                                                 <tbody>
-                                                    @foreach($componentLayoutProperties as $comPro)
+                                                    @foreach($records as $comPro)
+                                                        @php $i=1 @endphp
+                                                        @foreach($comPro as $val)
                                                         <tr>
-                                                            <td>
-                                                                {!! Form::text('layout_type_name', $comPro->layout_type_name, array('class' => 'form-control','readonly'=>true)) !!}
+                                                            @if($i==1)
+                                                            <td rowspan="{{count($comPro)}}" class="textCenter">
+                                                                {{$val['layout_type_name']}}
+{{--                                                                {!! Form::text('layout_type_name', $val['layout_type_name'], array('class' => 'form-control','readonly'=>true)) !!}--}}
                                                             </td>
+                                                            @endif
                                                             <td>
-                                                                {!! Form::text('name', $comPro->name, array('class' => 'form-control','readonly'=>true)) !!}
-                                                                <input type="hidden" name="component_properties_id[]" value="{{$comPro->id}}">
+                                                                {!! Form::text('name', $val['name'], array('class' => 'form-control','readonly'=>true)) !!}
+                                                                <input type="hidden" name="component_properties_id[]" value="{{$val['id']}}">
                                                             </td>
                                                             <td>
                                                                 @php
                                                                     $dropdownValue = [];
-                                                                    if ($comPro->name == 'font_family'){
+                                                                    if ($val['name'] == 'font_family'){
                                                                         $dropdownValue = [
                                                                               'Arial'=>'Arial',
                                                                               'Verdana'=>'Verdana',
@@ -161,7 +166,7 @@
                                                                               'Noto'=>'Noto',
                                                                         ];
                                                                     }
-                                                                    if ($comPro->name == 'font_weight'){
+                                                                    if ($val['name'] == 'font_weight'){
                                                                         $dropdownValue = [
                                                                               'normal'=>'normal',
                                                                               'bold'=>'bold',
@@ -169,7 +174,7 @@
                                                                               'lighter'=>'lighter',
                                                                         ];
                                                                     }
-                                                                    if ($comPro->name == 'font_style'){
+                                                                    if ($val['name'] == 'font_style'){
                                                                         $dropdownValue = [
                                                                               'normal'=>'normal',
                                                                               'Verdana'=>'Verdana',
@@ -177,7 +182,7 @@
                                                                               'Noto'=>'Noto',
                                                                         ];
                                                                     }
-                                                                    if ($comPro->name == 'text_overflow'){
+                                                                    if ($val['name'] == 'text_overflow'){
                                                                         $dropdownValue = [
                                                                               'clip'=>'clip',
                                                                               'ellipsis'=>'ellipsis',
@@ -186,7 +191,7 @@
                                                                               'inherit'=>'inherit',
                                                                         ];
                                                                     }
-                                                                    if ($comPro->name == 'text_font'){
+                                                                    if ($val['name'] == 'text_font'){
                                                                         $dropdownValue = [
                                                                               'Arial'=>'Arial',
                                                                               'Verdana'=>'Verdana',
@@ -196,43 +201,26 @@
                                                                     }
                                                                 @endphp
 
-                                                                @if($comPro->input_type == 'number')
-                                                                    {!! Form::number('value[]', $comPro->value, array('class' => 'form-control')) !!}
+                                                                @if($val['input_type'] == 'number')
+                                                                    {!! Form::number('value[]', $val['value'], array('class' => 'form-control')) !!}
                                                                 @endif
 
-                                                                @if($comPro->input_type == 'color')
-                                                                    {!! Form::color('value[]', $comPro->value, array('class' => 'form-control')) !!}
+                                                                @if($val['input_type'] == 'color')
+                                                                    {!! Form::color('value[]', $val['value'], array('class' => 'form-control')) !!}
                                                                 @endif
 
-                                                                @if($comPro->input_type == 'select')
-{{--                                                                    {!! Form::text('rrr[]', $comPro->value, array('class' => 'form-control')) !!}--}}
-                                                                    {!! Form::select('value[]',$dropdownValue, $comPro->value, array('class' => 'form-control')) !!}
+                                                                @if($val['input_type'] == 'select')
+{{--                                                                    {!! Form::text('rrr[]', $val->value, array('class' => 'form-control')) !!}--}}
+                                                                    {!! Form::select('value[]',$dropdownValue, $val['value'], array('class' => 'form-control')) !!}
                                                                 @endif
                                                             </td>
                                                         </tr>
+                                                        @php $i++ @endphp
+                                                    @endforeach
                                                     @endforeach
                                                 </tbody>
                                             @endif
                                         </table>
-                                        {{--<div class="col-sm-2">
-                                            <label for="" class="form-label">{{__('appfiy::messages.name')}}</label>
-                                            <span class="textRed">*</span>
-                                        </div>
-
-                                        <div class="col-sm-4">
-                                            {!! Form::text('name', null, array('class' => 'form-control ','placeholder'=>__('appfiy::messages.enterComponentName'))) !!}
-                                            <span class="textRed">{!! $errors->first('name') !!}</span>
-                                        </div>
-
-                                        <div class="col-sm-2">
-                                            <label for="" class="form-label">{{__('appfiy::messages.label')}}</label>
-                                            <span class="textRed">*</span>
-                                        </div>
-
-                                        <div class="col-sm-4">
-                                            {!! Form::text('label', null, array('class' => 'form-control ','placeholder'=>__('appfiy::messages.enterComponentLabel'))) !!}
-                                            <span class="textRed">{!! $errors->first('label') !!}</span>
-                                        </div>--}}
                                     </div>
 
                                     <div class="row mg-top">
@@ -248,7 +236,7 @@
 
                                 </div>
 
-                                {{--                                {!! Form::close() !!}--}}
+                                                                {!! Form::close() !!}
                             </div>
                         </div>
                     </div>

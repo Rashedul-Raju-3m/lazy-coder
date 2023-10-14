@@ -263,16 +263,37 @@ class ComponentController extends Controller
                                             ->get()->toArray();
         $componentLayoutProperties = ComponentProperties::where('appfiy_component_style_properties.component_id',$id)
                                     ->select([
+                                        'appfiy_component_style_properties.id',
                                         'appfiy_component_style_properties.name',
                                         'appfiy_component_style_properties.value',
                                         'appfiy_component_style_properties.default_value',
                                         'appfiy_component_style_properties.input_type',
                                         'appfiy_layout_type.name as layout_type_name',
+                                        'appfiy_layout_type.slug as layout_type_slug',
                                     ])
                                     ->join('appfiy_layout_type','appfiy_layout_type.id','=','appfiy_component_style_properties.layout_type_id')
-                                    ->get();
-//        dd($componentLayoutProperties);
-        return view('appfiy::component/properties_edit',['component'=>$component,'componentLayout'=>$componentLayout,'componentLayoutProperties'=>$componentLayoutProperties]);
+                                    ->get()->toArray();
+
+        $array = [];
+        if (count($componentLayoutProperties)>0){
+            foreach ($componentLayoutProperties as $val){
+                $array[$val['layout_type_slug']][] = $val;
+            }
+        }
+
+        return view('appfiy::component/properties_edit',['component'=>$component,'componentLayout'=>$componentLayout,'componentLayoutProperties'=>$componentLayoutProperties,'records'=>$array]);
+    }
+
+    public function updateProperties(Request $request,$ln,$id){
+        if (count($request->get('component_properties_id'))>0){
+            foreach ($request->get('component_properties_id') as $key => $comProId){
+                $ComponentProperties = ComponentProperties::find($comProId);
+                $ComponentProperties->update([
+                   'value' => $request->get('value')[$key]
+                ]);
+            }
+        }
+        return redirect()->route('component_list',app()->getLocale());
     }
 
     /**

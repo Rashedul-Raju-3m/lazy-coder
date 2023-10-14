@@ -261,7 +261,7 @@
                                         <div class="col-md-2"></div>
                                         <div class="col-md-10" >
                                             <div class="from-group">
-                                                <button type="submit" class="btn btn-primary " id="UserFormSubmit">Submit</button>
+                                                <button type="submit" class="btn btn-primary " id="UserFormSubmit">Next</button>
                                                 <button type="reset" class="btn submit-button">Reset</button>
                                             </div>
                                         </div>
