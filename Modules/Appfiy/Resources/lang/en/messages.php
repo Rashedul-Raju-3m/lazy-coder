@@ -24,7 +24,15 @@ return [
     'scope' => 'Scope',
     'list' => 'List',
     'image' => 'Image',
+    'styleGroup' => 'Style Group',
+    'styleGroupList' => 'Style Group List',
+    'styleGroupAdd' => 'Style Group Add',
+    'chooseStyleProperties' => 'Choose style properties',
+    'styleProperties' => 'Style Properties',
+    'totalProperties' => 'Total Properties',
+    'Properties' => ' Properties',
     'CreateMessage' => 'Data insert successfully',
+    'updateMessage' => 'Data update successfully',
 
 
     /*

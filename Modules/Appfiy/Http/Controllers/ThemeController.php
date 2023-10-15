@@ -92,10 +92,16 @@ class ThemeController extends Controller
         $input['appbar_navbar_drawer'] = json_encode($array);
         DB::beginTransaction();
         try {
-            $theme = new Theme();
-            $theme->create($input);
+            $theme = Theme::create($input);
             DB::commit();
 
+
+
+
+            /*if (isset($theme->id)){
+                Session::flash('message',__('appfiy::messages.CreateMessage'));
+                return redirect()->route('theme_attribute_edit', [app()->getLocale(),$theme->id]);
+            }*/
             Session::flash('message',__('appfiy::messages.CreateMessage'));
             return redirect()->route('theme_list', [app()->getLocale()]);
 
@@ -125,6 +131,16 @@ class ThemeController extends Controller
     public function edit($id)
     {
         return view('appfiy::edit');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     * @param int $id
+     * @return Renderable
+     */
+    public function attributeEdit($ln,$id){
+        $themeDetails = Theme::find($id);
+        return view('appfiy::theme/edit',['themeDetails'=>$themeDetails]);
     }
 
     /**

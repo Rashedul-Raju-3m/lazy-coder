@@ -46,6 +46,17 @@
                     </li>
                 </ul>
             </div>
+
+
+            <div class="nav-group {{ Request::is(app()->getLocale().'/appfiy/style/group/*') ? 'show' : ''}}">
+                <div class="nav-group-label" style="font-size: 15px !important;">{{__('appfiy::messages.styleGroup')}}</div>
+                <ul class="nav-sidebar">
+                    <li class="nav-item ">
+                        <a href="{{route('style_group_list',app()->getLocale())}}" class="nav-link {{ Request::is(app()->getLocale().'/appfiy/style/group/list') ? 'active' : ''}}"><i data-feather="arrow-right"></i><span>{{__('appfiy::messages.styleGroupList')}}</span></a>
+{{--                        <a href="{{route('component_add', app()->getLocale())}}" class="nav-link {{ Request::is(app()->getLocale().'/appfiy/component/create') ? 'active' : ''}}"><i data-feather="arrow-right"></i><span>{{__('appfiy::messages.styleGroupAdd')}}</span></a>--}}
+                    </li>
+                </ul>
+            </div>
         @endif
         {{--@if(Module::has('Exam'))
             @can('EXAM')
