@@ -20,7 +20,7 @@
                 <ul class="nav-sidebar">
                     <li class="nav-item ">
                         <a href="{{route('layout_type_list',app()->getLocale())}}" class="nav-link {{ Request::is(app()->getLocale().'/appfiy/layout/type/list') ? 'active' : ''}}"><i data-feather="arrow-right"></i><span>{{__('appfiy::messages.layoutType')}}</span></a>
-                        <a href="{{route('layout_type_properties_list', app()->getLocale())}}" class="nav-link {{ Request::is(app()->getLocale().'/appfiy/component/create') ? 'active' : ''}}"><i data-feather="arrow-right"></i><span>{{__('appfiy::messages.layoutTypeProperties')}}</span></a>
+{{--                        <a href="{{route('layout_type_properties_list', app()->getLocale())}}" class="nav-link {{ Request::is(app()->getLocale().'/appfiy/component/create') ? 'active' : ''}}"><i data-feather="arrow-right"></i><span>{{__('appfiy::messages.layoutTypeProperties')}}</span></a>--}}
                     </li>
                 </ul>
             </div>
@@ -42,7 +42,6 @@
                 <ul class="nav-sidebar">
                     <li class="nav-item ">
                         <a href="{{route('theme_list',app()->getLocale())}}" class="nav-link {{ Request::is(app()->getLocale().'/appfiy/theme/list') ? 'active' : ''}}"><i data-feather="arrow-right"></i><span>{{__('appfiy::messages.themeList')}}</span></a>
-{{--                        <a href="{{route('component_add', app()->getLocale())}}" class="nav-link {{ Request::is(app()->getLocale().'/appfiy/component/create') ? 'active' : ''}}"><i data-feather="arrow-right"></i><span>{{__('appfiy::messages.createComponent')}}</span></a>--}}
                     </li>
                 </ul>
             </div>
@@ -53,7 +52,6 @@
                 <ul class="nav-sidebar">
                     <li class="nav-item ">
                         <a href="{{route('style_group_list',app()->getLocale())}}" class="nav-link {{ Request::is(app()->getLocale().'/appfiy/style/group/list') ? 'active' : ''}}"><i data-feather="arrow-right"></i><span>{{__('appfiy::messages.styleGroupList')}}</span></a>
-{{--                        <a href="{{route('component_add', app()->getLocale())}}" class="nav-link {{ Request::is(app()->getLocale().'/appfiy/component/create') ? 'active' : ''}}"><i data-feather="arrow-right"></i><span>{{__('appfiy::messages.styleGroupAdd')}}</span></a>--}}
                     </li>
                 </ul>
             </div>

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateComponentLayoutTable extends Migration
+class CreateComponentStyleGroupTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateComponentLayoutTable extends Migration
      */
     public function up()
     {
-        Schema::create('appfiy_component_layout', function (Blueprint $table) {
+        Schema::create('appfiy_component_style_group', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('component_id')->unsigned()->nullable();
-            $table->unsignedBigInteger('layout_type_id')->unsigned()->nullable();
+            $table->unsignedBigInteger('style_group_id')->unsigned()->nullable();
             $table->timestamps();
-            $table->foreign('layout_type_id')->references('id')->on('appfiy_layout_type')->onDelete('cascade');
+            $table->foreign('style_group_id')->references('id')->on('appfiy_style_group')->onDelete('cascade');
             $table->foreign('component_id')->references('id')->on('appfiy_component')->onDelete('cascade');
         });
     }
@@ -30,6 +30,6 @@ class CreateComponentLayoutTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('appfiy_component_layout');
+        Schema::dropIfExists('appfiy_component_style_group');
     }
 }

@@ -17,7 +17,7 @@ Route::prefix('{locale}/appfiy')->group(function() {
         Route::POST('/theme/store',[ThemeController::class,'store'])->name('theme_store');
         Route::get('/theme/attribute/edit/{id}',[ThemeController::class, 'attributeEdit'])->name('theme_attribute_edit');
 //        Route::PATCH('/component/update/{id}',[ComponentController::class, 'update'])->name('component_update');
-//        Route::get('/component/properties/edit/{id}',[ComponentController::class, 'editComponentProperties'])->name('component_properties_edit');
+//        Route::list_view_decorationget('/component/properties/edit/{id}',[ComponentController::class, 'editComponentProperties'])->name('component_properties_edit');
 //        Route::PATCH('/component/properties/update/{id}',[ComponentController::class, 'updateProperties'])->name('component_properties_update');
     /*THEME ROUTE END*/
 

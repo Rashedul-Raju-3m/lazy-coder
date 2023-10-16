@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateComponentPropertiesTable extends Migration
+class CreateComponentStyleGroupPropertiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateComponentPropertiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('appfiy_component_style_properties', function (Blueprint $table) {
+        Schema::create('appfiy_component_style_group_properties', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('component_id')->unsigned();
+            $table->unsignedBigInteger('style_group_id')->unsigned();
             $table->string('name',255);
             $table->string('input_type',255);
             $table->string('value',255);
@@ -24,6 +25,7 @@ class CreateComponentPropertiesTable extends Migration
             $table->softDeletes();
             $table->timestamps();
             $table->foreign('component_id')->references('id')->on('appfiy_component')->onDelete('cascade');
+            $table->foreign('style_group_id')->references('id')->on('appfiy_style_group')->onDelete('cascade');
         });
     }
 
@@ -34,6 +36,6 @@ class CreateComponentPropertiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('appfiy_component_style_properties');
+        Schema::dropIfExists('appfiy_component_style_group_properties');
     }
 }

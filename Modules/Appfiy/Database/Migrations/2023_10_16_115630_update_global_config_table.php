@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateComponentStylePropertiesTable extends Migration
+class UpdateGlobalConfigTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class UpdateComponentStylePropertiesTable extends Migration
      */
     public function up()
     {
-        Schema::table('appfiy_component_style_properties', function (Blueprint $table) {
-            $table->unsignedBigInteger('layout_type_id')->unsigned()->nullable();
-            $table->foreign('layout_type_id')->references('id')->on('appfiy_layout_type')->onDelete('cascade');
+        Schema::table('appfiy_global_config', function (Blueprint $table) {
+            $table->string('selected_color',20)->nullable()->after('slug');
+            $table->string('unselected_color',20)->nullable()->after('selected_color');
         });
     }
 

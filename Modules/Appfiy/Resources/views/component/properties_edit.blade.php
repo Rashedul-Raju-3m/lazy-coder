@@ -63,31 +63,10 @@
 
                                     <div class="form-group row mg-top">
                                         <div class="col-sm-2 text-end">
-                                            <label for="" class="form-label">{{__('appfiy::messages.scope')}} &nbsp;&nbsp; : </label>
-                                        </div>
-                                        <div class="col-sm-3"><label for="" class="form-label">{{$component->scope}}</label></div>
-
-                                        <div class="col-sm-2 text-end">
-                                            <label for="" class="form-label">{{__('appfiy::messages.classType')}} &nbsp;&nbsp; : </label>
-                                        </div>
-
-                                        <div class="col-sm-3"><label for="" class="form-label">{{$component->class_type}}</label></div>
-                                    </div>
-
-                                    <div class="form-group row mg-top">
-                                        <div class="col-sm-2 text-end">
                                             <label for="" class="form-label">{{__('appfiy::messages.layoutType')}} &nbsp;&nbsp; : </label>
                                         </div>
                                         <div class="col-sm-8">
-                                            <label for="" class="form-label">
-                                        @if(isset($componentLayout) && count($componentLayout)>0)
-                                            @php $i=1 @endphp
-                                            @foreach($componentLayout as $comLay)
-                                                {{($i==1?'':', ').$comLay['name']}}
-                                                        @php $i++ @endphp
-                                            @endforeach
-                                        @endif
-                                            </label>
+                                            <label for="" class="form-label">{{$component->componentLayout['name']}}</label>
                                         </div>
                                     </div>
 
@@ -98,6 +77,29 @@
                                         <div class="col-sm-8">
                                             <label for="" class="form-label">
                                                 {{$component->product_type}}
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row mg-top">
+                                        <div class="col-sm-2 text-end">
+                                            <label for="" class="form-label">{{__('appfiy::messages.scope')}} &nbsp;&nbsp; : </label>
+                                        </div>
+                                        <div class="col-sm-3"><label for="" class="form-label">{{$component->scope}}</label></div>
+                                    </div>
+
+                                    <div class="form-group row mg-top">
+                                        <div class="col-sm-2 text-end">
+                                            <label for="" class="form-label">{{__('appfiy::messages.styleGroup')}} &nbsp;&nbsp; : </label>
+                                        </div>
+                                        <div class="col-sm-3"><label for="" class="form-label">
+                                                @if(count($component->componentStyleGroup)>0)
+                                                    @foreach($component->componentStyleGroup as $group)
+{{--                                                        {{dd($group->componentStyleGroupProperties)}}--}}
+                                                    @endforeach
+                                                @endif
+{{--                                                {{dd($component->componentStyleGroup)}}--}}
+                                                {{$component->scope}}
                                             </label>
                                         </div>
                                     </div>

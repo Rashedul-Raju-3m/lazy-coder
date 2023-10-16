@@ -14,9 +14,13 @@ use Illuminate\Support\Str;
 use Modules\Appfiy\Entities\Component;
 use Modules\Appfiy\Entities\ComponentLayout;
 use Modules\Appfiy\Entities\ComponentProperties;
+use Modules\Appfiy\Entities\ComponentStyleGroup;
+use Modules\Appfiy\Entities\ComponentStyleGroupProperties;
 use Modules\Appfiy\Entities\LayoutType;
 use Modules\Appfiy\Entities\LayoutTypeProperties;
 use Modules\Appfiy\Entities\Scope;
+use Modules\Appfiy\Entities\StyleGroup;
+use Modules\Appfiy\Entities\StyleGroupProperties;
 use Modules\Quran\Entities\Ayat;
 
 class ComponentController extends Controller
@@ -80,15 +84,16 @@ class ComponentController extends Controller
      */
     public function edit($ln,$id){
         $data = Component::find($id);
-        $layoutTypes = LayoutType::where('is_active',1)->get();
-        $componentLayouts = ComponentLayout::where('component_id',$id)->get()->toArray();
+        $layoutTypes = LayoutType::where('is_active',1)->pluck('name','id');
+        $styleGroups = StyleGroup::where('is_active',1)->get();
 
-        $componentLayoutsArray = [];
-        if (isset($componentLayouts) && count($componentLayouts)>0){
-            foreach ($componentLayouts as $lay){
-                array_push($componentLayoutsArray,$lay['layout_type_id']);
+        $componentStyleIdArray = [];
+            if (count($data->componentStyleGroup->toArray())>0){
+                foreach ($data->componentStyleGroup->toArray() as $styID){
+                    array_push($componentStyleIdArray,$styID['style_group_id']);
+                }
             }
-        }
+
         $scopes = Scope::select(['id','name','slug','is_global'])->get()->toArray();
 
         $scopeArray = [];
@@ -98,7 +103,7 @@ class ComponentController extends Controller
             }
         }
 
-        return view('appfiy::component/edit',['data'=>$data,'layoutTypes'=>$layoutTypes,'componentLayoutsArray'=>$componentLayoutsArray,'scopeArrayData'=>$scopeArray]);
+        return view('appfiy::component/edit',['data'=>$data,'layoutTypes'=>$layoutTypes,'scopeArrayData'=>$scopeArray,'styleGroups'=>$styleGroups,'componentStyleIdArray' =>$componentStyleIdArray]);
     }
 
     /**
@@ -114,7 +119,8 @@ class ComponentController extends Controller
             'icon_code' => 'required',
             'event' => 'required',
             'scope' => 'required',
-            'layout' => 'required',
+            'layout_type_id' => 'required',
+            'style_group' => 'required',
         ],[
             'name.required' => __('appfiy::messages.enterComponentName'),
             'name.unique' => __('appfiy::messages.componentNameMustbeUnique'),
@@ -122,11 +128,11 @@ class ComponentController extends Controller
             'icon_code.required' => __('appfiy::messages.enterIconName'),
             'event.required' => __('appfiy::messages.EnterEvent'),
             'scope.required' => __('appfiy::messages.ChooseScope'),
-            'layout.required' => __('appfiy::messages.chooseLayoutType'),
+            'layout_type_id.required' => __('appfiy::messages.chooseLayoutType'),
+            'style_group.required' => __('appfiy::messages.chooseStyleGroup'),
         ]);
 
         $input = $request->all();
-//        dd($input);
         $input['slug'] = Str::slug($request->name);
         $input['scope'] = json_encode($input['scope']);
         $component = Component::find($id);
@@ -191,32 +197,32 @@ class ComponentController extends Controller
             $component->update($input);
             $component->save();
 
-            if (isset($input['layout'])){
-                foreach ($input['layout'] as $layout){
-                    $layoutProperties = LayoutTypeProperties::where('appfiy_layout_type_group_style.layout_type_id',$layout)
-                                        ->where('appfiy_layout_type_style_properties.is_active',1)
-                                        ->join('appfiy_layout_type_group_style','appfiy_layout_type_group_style.property_id','=','appfiy_layout_type_style_properties.id')
-                                        ->select([
-                                            'appfiy_layout_type_style_properties.name',
-                                            'appfiy_layout_type_style_properties.input_type',
-                                            'appfiy_layout_type_style_properties.value',
-                                            'appfiy_layout_type_style_properties.default_value',
-                                        ])
-                                        ->get();
-
-                    $componentLayoutsExists = ComponentLayout::where('component_id',$id)->get()->toArray();
-                    $componentLayoutsArray = [];
-                    if (isset($componentLayoutsExists) && count($componentLayoutsExists)>0){
-                        foreach ($componentLayoutsExists as $lay){
-                            array_push($componentLayoutsArray,$lay['layout_type_id']);
+            if (isset($input['style_group'])){
+                foreach ($input['style_group'] as $styleGroup) {
+                    $layoutProperties = StyleGroupProperties::where('appfiy_style_group_properties.style_group_id', $styleGroup)
+                        ->where('appfiy_style_properties.is_active', 1)
+                        ->join('appfiy_style_properties', 'appfiy_style_properties.id', '=', 'appfiy_style_group_properties.style_property_id')
+                        ->select([
+                            'appfiy_style_properties.name',
+                            'appfiy_style_properties.input_type',
+                            'appfiy_style_properties.value',
+                            'appfiy_style_properties.default_value',
+                        ])
+                        ->get();
+                }
+                    $componentStyleExists = $component->componentStyleGroup->toArray();
+                    $componentStyleArray = [];
+                    if (isset($componentStyleExists) && count($componentStyleExists)>0){
+                        foreach ($componentStyleExists as $lay){
+                            array_push($componentStyleArray,$lay['style_group_id']);
                         }
                     }
-                    $insertLayoutArray = array_diff($input['layout'],$componentLayoutsArray);
-                    $deleteArrayList = array_diff($componentLayoutsArray, $input['layout']);
+                    $insertLayoutArray = array_diff($input['style_group'],$componentStyleArray);
+                    $deleteArrayList = array_diff($componentStyleArray, $input['style_group']);
                     if (isset($deleteArrayList) && count($deleteArrayList)>0){
                         foreach ($deleteArrayList as $deleteID){
-                            ComponentLayout::where('component_id',$id)->where('layout_type_id',$deleteID)->first()->delete();
-                            $deleteProperties = ComponentProperties::where('component_id',$id)->where('layout_type_id',$deleteID)->get();
+                            ComponentStyleGroup::where('component_id',$id)->where('style_group_id',$deleteID)->first()->delete();
+                            $deleteProperties = ComponentStyleGroupProperties::where('component_id',$id)->where('style_group_id',$deleteID)->get();
                             if (isset($deleteProperties) && count($deleteProperties)>0){
                                 foreach ($deleteProperties as $delP){
                                     $delP->delete();
@@ -224,17 +230,17 @@ class ComponentController extends Controller
                             }
                         }
                     }
-                    if (isset($insertLayoutArray) && count($insertLayoutArray)>0){
+                    if (count($insertLayoutArray)>0){
                         foreach ($insertLayoutArray as $layId){
-                            ComponentLayout::create([
+                            ComponentStyleGroup::create([
                                 'component_id' => $id,
-                                'layout_type_id' => $layId
+                                'style_group_id' => $layId
                             ]);
-                            if (isset($layoutProperties) && count($layoutProperties)>0) {
+                            if (count($layoutProperties)>0) {
                                 foreach ($layoutProperties as $pro) {
-                                    ComponentProperties::create([
+                                    ComponentStyleGroupProperties::create([
                                         'component_id' => $id,
-                                        'layout_type_id' => $layId,
+                                        'style_group_id' => $layId,
                                         'name' => $pro->name,
                                         'input_type' => $pro->input_type,
                                         'value' => $pro->value,
@@ -245,13 +251,12 @@ class ComponentController extends Controller
                         }
                     }
                 }
-            }
             DB::commit();
 
             if ($id){
-                return redirect()->route('component_properties_edit', [app()->getLocale(),$id]);
+//                return redirect()->route('component_properties_edit', [app()->getLocale(),$id]);
+                return redirect()->route('component_list', app()->getLocale());
             }
-//            Session::flash('message',__('quran::messages.Create Message'));
         } catch (\Exception $e) {
             DB::rollback();
             print($e->getMessage());
@@ -262,6 +267,7 @@ class ComponentController extends Controller
 
     public function editComponentProperties($ln,$id){
         $component = Component::find($id);
+//        dd($component->componentLayout['name']);
         $componentLayout = ComponentLayout::join('appfiy_layout_type','appfiy_layout_type.id','=','appfiy_component_layout.layout_type_id')
                                             ->select(['appfiy_layout_type.name','appfiy_layout_type.slug'])
                                             ->where('appfiy_component_layout.component_id',$id)
@@ -286,7 +292,7 @@ class ComponentController extends Controller
             }
         }
 
-        return view('appfiy::component/properties_edit',['component'=>$component,'componentLayout'=>$componentLayout,'componentLayoutProperties'=>$componentLayoutProperties,'records'=>$array]);
+        return view('appfiy::component/properties_edit',['component'=>$component,'componentLayoutProperties'=>$componentLayoutProperties,'records'=>$array]);
     }
 
     public function updateProperties(Request $request,$ln,$id){

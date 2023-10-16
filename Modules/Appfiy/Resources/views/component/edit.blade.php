@@ -81,24 +81,21 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group row mg-top">
-
+                                    {{--<div class="form-group row mg-top">
                                         <div class="col-sm-2">
                                             <label for="" class="form-label">{{__('appfiy::messages.classType')}}</label>
-{{--                                            <span class="textRed">*</span>--}}
+                                            <span class="textRed">*</span>
                                         </div>
-
                                         <div class="col-sm-10">
                                             {!! Form::text('class_type', null, array('class' => 'form-control ','placeholder'=>__('appfiy::messages.EnterClassType'))) !!}
-{{--                                            <span class="textRed">{!! $errors->first('class_type') !!}</span>--}}
+                                            <span class="textRed">{!! $errors->first('class_type') !!}</span>
                                         </div>
-                                    </div>
+                                    </div>--}}
 
                                     <div class="form-group row mg-top">
 
                                         <div class="col-sm-2">
                                             <label for="" class="form-label">{{__('appfiy::messages.productType')}}</label>
-{{--                                            <span class="textRed">*</span>--}}
                                         </div>
                                         @php
                                             $dropdownValue = [
@@ -154,26 +151,41 @@
 
                                     <div class="form-group row mg-top">
                                         <div class="col-sm-2">
-                                            {!! Form::label(__('appfiy::messages.layoutType'), __('appfiy::messages.layoutType'), array('class' => 'form-label','for'=>'formFile')) !!}
+                                            <label for="layout_type_id" class="form-label">{{__('appfiy::messages.layoutType')}}</label>
+                                            <span class="textRed">*</span>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            {!! Form::select('layout_type_id',$layoutTypes?$layoutTypes:[], $data['layout_type_id'], array('class' => ' form-control form-select js-example-basic-single','placeholder'=>__('appfiy::messages.chooseLayoutType'))) !!}
+                                            <br><span class="textRed">{!! $errors->first('layout_type_id') !!}</span>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row mg-top">
+                                        <div class="col-sm-2">
+                                            <label for="" class="form-label">{{__('appfiy::messages.styleGroup')}}</label>
                                             <span class="textRed">*</span>
                                         </div>
 
                                         <div class="col-sm-10">
-                                            @if(isset($layoutTypes) && count($layoutTypes)>0)
-                                                @foreach($layoutTypes as $layout)
+                                            @if(count($styleGroups)>0)
+                                                @foreach($styleGroups as $styleGroup)
                                                     <div class="form-check form-check-inline">
-                                                        <input style="margin-top: 0px" class="form-check-input" name="layout[]" type="checkbox" id="{{$layout->slug}}" value="{{$layout->id}}"
-                                                            @if(isset($componentLayoutsArray) && count($componentLayoutsArray)>0)
-                                                                {{in_array($layout->id,$componentLayoutsArray)?'checked':''}}
+                                                        <input style="margin-top: 0px" class="form-check-input" name="style_group[]" type="checkbox" id="{{$styleGroup['slug']}}" value="{{$styleGroup['id']}}"
+                                                        @if(count($componentStyleIdArray)>0)
+                                                            {{in_array($styleGroup['id'],$componentStyleIdArray)?'checked':''}}
                                                             @endif
                                                         >
-                                                        <label class="form-check-label" for="{{$layout->slug}}">{{$layout->name}}</label>
+                                                        <label class="form-check-label" for="{{$styleGroup['slug']}}">{{$styleGroup['name']}}</label>
                                                     </div>
                                                 @endforeach
+                                                <br><span class="textRed">{!! $errors->first('style_group') !!}</span>
                                             @endif
-                                                <br><span class="textRed">{!! $errors->first('layout') !!}</span>
                                         </div>
                                     </div>
+
+
 
                                     <div class="form-group row mg-top">
                                         <div class="col-sm-2">

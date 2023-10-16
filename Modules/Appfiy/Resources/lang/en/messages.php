@@ -53,6 +53,8 @@ return [
         'chooseNavbar' => 'Choose navbar',
         'chooseDrawer' => 'Choose drawer',
         'themeNameMustbeUnique' => 'Theme name must be unique',
+        'chooseLayoutType' => 'Choose layout type',
+        'chooseStyleGroup' => 'Choose style group',
     /*
     |--------------------------------------------------------------------------
     | Component language End
