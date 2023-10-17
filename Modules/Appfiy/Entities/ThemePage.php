@@ -13,7 +13,7 @@ class ThemePage extends Model
     public $timestamps = true;
     protected $guarded = ['id'];
     protected $dates = ['created_at', 'updated_at'];
-    protected $fillable = [ 'theme_id', 'page_id'];
+    protected $fillable = [ 'theme_id', 'page_id','persistent_footer_buttons','background_color','border_color','border_radius'];
 
     public function page(){
         return $this->belongsTo('Modules\Appfiy\Entities\Page','page_id','id');

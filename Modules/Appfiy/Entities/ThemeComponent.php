@@ -13,7 +13,7 @@ class ThemeComponent extends Model
     public $timestamps = true;
     protected $guarded = ['id'];
     protected $dates = ['created_at', 'updated_at'];
-    protected $fillable = ['theme_id', 'parent_id', 'child_id', 'theme_config_id', 'theme_page_id'];
+    protected $fillable = ['theme_id', 'parent_id', 'component_parent_id', 'component_id', 'theme_config_id', 'theme_page_id', 'display_name', 'clone_component', 'selected_id'];
 
     public function component(){
         return $this->belongsTo('Modules\Appfiy\Entities\Component','component_id','id');

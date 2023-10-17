@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateComponentTable extends Migration
+class UpdateThemeComponentTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class UpdateComponentTable extends Migration
      */
     public function up()
     {
-        Schema::table('appfiy_component', function (Blueprint $table) {
+        Schema::table('appfiy_theme_component', function (Blueprint $table) {
             $table->string('display_name',255)->nullable();
             $table->integer('clone_component')->nullable();
             $table->integer('selected_id')->nullable();

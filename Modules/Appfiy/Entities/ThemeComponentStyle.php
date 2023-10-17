@@ -14,7 +14,7 @@ class ThemeComponentStyle extends Model
     public $timestamps = true;
     protected $guarded = ['id'];
     protected $dates = ['deleted_at','created_at', 'updated_at'];
-    protected $fillable = ['theme_component_id', 'name', 'input_type', 'value'];
+    protected $fillable = ['theme_id','theme_component_id', 'name', 'input_type', 'value','style_group_id'];
 
     protected static function newFactory()
     {

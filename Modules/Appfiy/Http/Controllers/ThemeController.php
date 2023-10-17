@@ -9,11 +9,16 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use Modules\Appfiy\Entities\Component;
 use Modules\Appfiy\Entities\ComponentLayout;
-use Modules\Appfiy\Entities\ComponentProperties;
+use Modules\Appfiy\Entities\ComponentStyleGroupProperties;
 use Modules\Appfiy\Entities\GlobalConfig;
 use Modules\Appfiy\Entities\LayoutTypeProperties;
+use Modules\Appfiy\Entities\Page;
 use Modules\Appfiy\Entities\Theme;
+use Modules\Appfiy\Entities\ThemeComponent;
+use Modules\Appfiy\Entities\ThemeComponentStyle;
+use Modules\Appfiy\Entities\ThemePage;
 
 class ThemeController extends Controller
 {
@@ -90,13 +95,49 @@ class ThemeController extends Controller
         array_push($array,$input['navbar_id']);
         array_push($array,$input['drawer_id']);
         $input['appbar_navbar_drawer'] = json_encode($array);
+        $getAllPages = Page::where('is_active',1)->get()->toArray();
+
         DB::beginTransaction();
         try {
             $theme = Theme::create($input);
+            if (count($getAllPages)>0){
+                foreach ($getAllPages as $page){
+                    $themePage = ThemePage::create([
+                        'theme_id' => $theme->id,
+                        'page_id' => $page['id'],
+                        'persistent_footer_buttons' => $page['persistent_footer_buttons'],
+                        'background_color' => $page['background_color'],
+                        'border_color' => $page['border_color'],
+                        'border_radius' => $page['border_radius'],
+                    ]);
+                    $pageWiseComponents = Component::where('scope','LIKE','%'.$page['slug'].'%')->where('is_active',1)->get()->toArray();
+                    if (count($pageWiseComponents)>0){
+                        foreach ($pageWiseComponents as $component){
+                            $themeComponent = ThemeComponent::create([
+                                'theme_id' =>$theme->id,
+                                'component_id' =>$component['id'],
+                                'theme_page_id' =>$themePage->id,
+                                'display_name' =>$component['name'],
+                                'clone_component' =>3
+                            ]);
+                            $getComponentStyles = ComponentStyleGroupProperties::where('is_active',1)->where('component_id',$component['id'])->get()->toArray();
+                            if (count($getComponentStyles)>0){
+                                foreach ($getComponentStyles as $style) {
+                                    ThemeComponentStyle::create([
+                                        'theme_id' => $theme->id,
+                                        'theme_component_id' => $themeComponent->id,
+                                        'name' => $style['name'],
+                                        'input_type' => $style['input_type'],
+                                        'value' => $style['value'],
+                                        'style_group_id' => $style['style_group_id'],
+                                    ]);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             DB::commit();
-
-
-
 
             /*if (isset($theme->id)){
                 Session::flash('message',__('appfiy::messages.CreateMessage'));

@@ -139,7 +139,7 @@ class ApiController extends Controller
                             },
                             'page' => function ($query) {
                                 $query->select([
-//                                    'appfiy_theme_page.id',
+                                    'appfiy_theme_page.id',
                                     'appfiy_theme_page.theme_id',
                                     'appfiy_theme_page.page_id',
                                     'appfiy_theme_page.persistent_footer_buttons',
@@ -285,17 +285,19 @@ class ApiController extends Controller
                                     'appfiy_component.event',
                                     'appfiy_component.scope',
                                     'appfiy_component.class_type',
-                                    'appfiy_component.display_name',
-                                    'appfiy_component.clone_component',
-                                    'appfiy_component.selected_id',
+                                    'appfiy_theme_component.display_name',
+                                    'appfiy_theme_component.clone_component',
+                                    'appfiy_theme_component.selected_id',
                                     DB::raw('CONCAT("/upload/component-image/", appfiy_component.image) AS image'),
                                     'appfiy_component.is_multiple',
                                 ])
                                 ->join('appfiy_component','appfiy_component.id','=','appfiy_theme_component.component_id')
                                 ->join('appfiy_layout_type','appfiy_layout_type.id','=','appfiy_component.layout_type_id')
                                 ->where('appfiy_theme_component.theme_id', $themeID)
-                                ->where('appfiy_theme_component.theme_page_id', $page['page_id'])
+                                ->where('appfiy_theme_component.theme_page_id', $page['id'])
                                 ->get()->toArray();
+
+//                            dd($getPagesComponents);
 
                             $final = [];
                             if (count($getPagesComponents)>0){
