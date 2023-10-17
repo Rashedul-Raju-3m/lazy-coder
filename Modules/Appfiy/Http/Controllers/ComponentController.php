@@ -198,8 +198,9 @@ class ComponentController extends Controller
             $component->save();
 
             if (isset($input['style_group'])){
-                foreach ($input['style_group'] as $styleGroup) {
-                    $layoutProperties = StyleGroupProperties::where('appfiy_style_group_properties.style_group_id', $styleGroup)
+//                foreach ($input['style_group'] as $styleGroup) {
+//                    dd($styleGroup);
+                    /*$layoutProperties = StyleGroupProperties::where('appfiy_style_group_properties.style_group_id', $styleGroup)
                         ->where('appfiy_style_properties.is_active', 1)
                         ->join('appfiy_style_properties', 'appfiy_style_properties.id', '=', 'appfiy_style_group_properties.style_property_id')
                         ->select([
@@ -208,35 +209,49 @@ class ComponentController extends Controller
                             'appfiy_style_properties.value',
                             'appfiy_style_properties.default_value',
                         ])
-                        ->get();
-                }
+                        ->get();*/
+//                    dd($layoutProperties);
+
                     $componentStyleExists = $component->componentStyleGroup->toArray();
+//                    dd($componentStyleExists);
                     $componentStyleArray = [];
-                    if (isset($componentStyleExists) && count($componentStyleExists)>0){
-                        foreach ($componentStyleExists as $lay){
-                            array_push($componentStyleArray,$lay['style_group_id']);
+                    if (count($componentStyleExists) > 0) {
+                        foreach ($componentStyleExists as $lay) {
+                            array_push($componentStyleArray, $lay['style_group_id']);
                         }
                     }
-                    $insertLayoutArray = array_diff($input['style_group'],$componentStyleArray);
+                    $insertLayoutArray = array_diff($input['style_group'], $componentStyleArray);
+//                    dd($insertLayoutArray);
                     $deleteArrayList = array_diff($componentStyleArray, $input['style_group']);
-                    if (isset($deleteArrayList) && count($deleteArrayList)>0){
-                        foreach ($deleteArrayList as $deleteID){
-                            ComponentStyleGroup::where('component_id',$id)->where('style_group_id',$deleteID)->first()->delete();
-                            $deleteProperties = ComponentStyleGroupProperties::where('component_id',$id)->where('style_group_id',$deleteID)->get();
-                            if (isset($deleteProperties) && count($deleteProperties)>0){
-                                foreach ($deleteProperties as $delP){
+//                    dd($deleteArrayList);
+                    if (count($deleteArrayList) > 0) {
+                        foreach ($deleteArrayList as $deleteID) {
+                            ComponentStyleGroup::where('component_id', $id)->where('style_group_id', $deleteID)->first()->delete();
+                            $deleteProperties = ComponentStyleGroupProperties::where('component_id', $id)->where('style_group_id', $deleteID)->get();
+                            if (isset($deleteProperties) && count($deleteProperties) > 0) {
+                                foreach ($deleteProperties as $delP) {
                                     $delP->delete();
                                 }
                             }
                         }
                     }
-                    if (count($insertLayoutArray)>0){
-                        foreach ($insertLayoutArray as $layId){
+                    if (count($insertLayoutArray) > 0) {
+                        foreach ($insertLayoutArray as $layId) {
                             ComponentStyleGroup::create([
                                 'component_id' => $id,
                                 'style_group_id' => $layId
                             ]);
-                            if (count($layoutProperties)>0) {
+                            $layoutProperties = StyleGroupProperties::where('appfiy_style_group_properties.style_group_id', $layId)
+                                ->where('appfiy_style_properties.is_active', 1)
+                                ->join('appfiy_style_properties', 'appfiy_style_properties.id', '=', 'appfiy_style_group_properties.style_property_id')
+                                ->select([
+                                    'appfiy_style_properties.name',
+                                    'appfiy_style_properties.input_type',
+                                    'appfiy_style_properties.value',
+                                    'appfiy_style_properties.default_value',
+                                ])
+                                ->get();
+                            if (count($layoutProperties) > 0) {
                                 foreach ($layoutProperties as $pro) {
                                     ComponentStyleGroupProperties::create([
                                         'component_id' => $id,
@@ -251,6 +266,7 @@ class ComponentController extends Controller
                         }
                     }
                 }
+//                }
             DB::commit();
 
             if ($id){
@@ -267,24 +283,22 @@ class ComponentController extends Controller
 
     public function editComponentProperties($ln,$id){
         $component = Component::find($id);
-//        dd($component->componentLayout['name']);
-        $componentLayout = ComponentLayout::join('appfiy_layout_type','appfiy_layout_type.id','=','appfiy_component_layout.layout_type_id')
-                                            ->select(['appfiy_layout_type.name','appfiy_layout_type.slug'])
-                                            ->where('appfiy_component_layout.component_id',$id)
+        $componentLayout = ComponentStyleGroup::join('appfiy_style_group','appfiy_style_group.id','=','appfiy_component_style_group.style_group_id')
+                                            ->select(['appfiy_style_group.name','appfiy_style_group.slug'])
+                                            ->where('appfiy_component_style_group.component_id',$id)
                                             ->get()->toArray();
-        $componentLayoutProperties = ComponentProperties::where('appfiy_component_style_properties.component_id',$id)
+        $componentLayoutProperties = ComponentStyleGroupProperties::where('appfiy_component_style_group_properties.component_id',$id)
                                     ->select([
-                                        'appfiy_component_style_properties.id',
-                                        'appfiy_component_style_properties.name',
-                                        'appfiy_component_style_properties.value',
-                                        'appfiy_component_style_properties.default_value',
-                                        'appfiy_component_style_properties.input_type',
-                                        'appfiy_layout_type.name as layout_type_name',
-                                        'appfiy_layout_type.slug as layout_type_slug',
+                                        'appfiy_component_style_group_properties.id',
+                                        'appfiy_component_style_group_properties.name',
+                                        'appfiy_component_style_group_properties.value',
+                                        'appfiy_component_style_group_properties.default_value',
+                                        'appfiy_component_style_group_properties.input_type',
+                                        'appfiy_style_group.name as layout_type_name',
+                                        'appfiy_style_group.slug as layout_type_slug',
                                     ])
-                                    ->join('appfiy_layout_type','appfiy_layout_type.id','=','appfiy_component_style_properties.layout_type_id')
+                                    ->join('appfiy_style_group','appfiy_style_group.id','=','appfiy_component_style_group_properties.style_group_id')
                                     ->get()->toArray();
-
         $array = [];
         if (count($componentLayoutProperties)>0){
             foreach ($componentLayoutProperties as $val){
@@ -292,13 +306,13 @@ class ComponentController extends Controller
             }
         }
 
-        return view('appfiy::component/properties_edit',['component'=>$component,'componentLayoutProperties'=>$componentLayoutProperties,'records'=>$array]);
+        return view('appfiy::component/properties_edit',['component'=>$component,'componentLayoutProperties'=>$componentLayoutProperties,'records'=>$array,'componentLayout'=>$componentLayout]);
     }
 
     public function updateProperties(Request $request,$ln,$id){
         if (count($request->get('component_properties_id'))>0){
             foreach ($request->get('component_properties_id') as $key => $comProId){
-                $ComponentProperties = ComponentProperties::find($comProId);
+                $ComponentProperties = ComponentStyleGroupProperties::find($comProId);
                 $ComponentProperties->update([
                    'value' => $request->get('value')[$key]
                 ]);

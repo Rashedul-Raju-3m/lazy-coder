@@ -229,7 +229,7 @@ class ApiController extends Controller
 
                                         $componentArrange['general'] = [
                                             'component_position'=>$component['component_position'],
-                                            'component_id'=>$component['id'],
+//                                            'component_id'=>$component['id'],
                                             'name'=>$component['name'],
                                             'slug'=>$component['slug'],
                                             'label'=>$component['label'],
