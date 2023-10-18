@@ -341,7 +341,34 @@ class ApiController extends Controller
                                     $final[] = $componentGeneral;
                                 }
                             }
+                            /*$pages[]['general'] = [
+                                'name' =>   $page->name,
+                                'slug' =>   $page->slug,
+                                'persistent_footer_buttons' =>  isset($page->persistent_footer_buttons)?json_decode($page->persistent_footer_buttons):null,
+                            ];
+                            $pages[]['properties'] = [
+                                'page_decoration' => [
+                                    'background_color' => $page->background_color,
+                                    'border_color' => $page->border_color,
+                                    'border_radius' => $page->border_radius,
+                                ]
+                            ];*/
                             $pages[] = [
+                                'general' => [
+                                    'name' =>   $page->name,
+                                    'slug' =>   $page->slug,
+                                    'persistent_footer_buttons' =>  isset($page->persistent_footer_buttons)?json_decode($page->persistent_footer_buttons):null,
+                                ],
+                                'properties' => [
+                                    'page_decoration' => [
+                                        'background_color' => $page->background_color,
+                                        'border_color' => $page->border_color,
+                                        'border_radius' => $page->border_radius,
+                                    ],
+                                ],
+                                'components' => $final
+                            ];
+                            /*$pages[] = [
                               'name' =>   $page->name,
                               'slug' =>   $page->slug,
                               'persistent_footer_buttons' =>  isset($page->persistent_footer_buttons)?json_decode($page->persistent_footer_buttons):null,
@@ -351,7 +378,7 @@ class ApiController extends Controller
                                     'border_radius' => $page->border_radius,
                                 ],
                               'components' => $final
-                            ];
+                            ];*/
                         }
                     }
                     $themeData['pages'] = $pages;
