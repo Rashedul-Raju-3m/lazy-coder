@@ -26,7 +26,7 @@ class StyleGroupController extends Controller
      * @return Renderable
      */
     public function index(){
-        $styleGroups = StyleGroup::where('is_active',1)->paginate(14);
+        $styleGroups = StyleGroup::where('is_active',1)->paginate(20);
         return view('appfiy::styleGroup/index',['styleGroups'=>$styleGroups]);
     }
 
