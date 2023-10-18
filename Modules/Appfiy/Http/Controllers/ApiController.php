@@ -253,7 +253,7 @@ class ApiController extends Controller
                                             'scope'=>$component['scope'],
                                             'class_type'=>$component['class_type'],
                                             'web_icon'=>$component['web_icon'],
-                                            'image'=>$component['image'],
+                                            'image_url'=>$component['image'],
                                             'is_multiple'=>$component['is_multiple'],
                                         ];
                                         $componentArrange['style'] = $finalNewStyle?$finalNewStyle:json_decode('{}');
@@ -331,7 +331,7 @@ class ApiController extends Controller
                                         'display_name'=>$pagesComponent['display_name'],
                                         'clone_component'=>$pagesComponent['clone_component'],
                                         'selected_design'=>$pagesComponent['selected_id'],
-                                        'image'=>$pagesComponent['image'],
+                                        'image_url'=>$pagesComponent['image'],
 
 //                                        'is_multiple'=>$pagesComponent['is_multiple'],
 //                                        'style'=>$newStyle,
