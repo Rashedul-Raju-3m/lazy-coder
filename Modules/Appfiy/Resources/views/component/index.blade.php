@@ -54,14 +54,15 @@
                                                 <td>{{$component->event}}</td>
                                                 <td>{{$component->scope}}</td>
                                                 <td>
-                                                    <div class="btn-group" role="group" aria-label="Button group with nested dropdown"><div class="btn-group" role="group"><button id="btnGroupDrop1" type="button" class="btn" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></button>
+                                                    <a title="Edit" class="dropdown-item" href="{{route('component_edit',[app()->getLocale(),$component->id])}}"><i class="fas fa-edit"></i></a>
+                                                    {{--<div class="btn-group" role="group" aria-label="Button group with nested dropdown"><div class="btn-group" role="group"><button id="btnGroupDrop1" type="button" class="btn" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></button>
                                                             <ul class="dropdown-menu dropdown-style" aria-labelledby="btnGroupDrop1">
                                                                 <li><a title="Edit" class="dropdown-item" href="{{route('component_edit',[app()->getLocale(),$component->id])}}"><i class="fas fa-edit"></i></a></li>
-{{--                                                                <li><a title="View" class="dropdown-item" href=""><i class="fas fa-eye"></i></a></li>--}}
-{{--                                                                <li><a title="Delete" class="dropdown-item" onclick="return confirm('Are you sure to delete ?');" href=""><i class="fas fa-trash-alt"></i></a></li>--}}
+                                                                <li><a title="View" class="dropdown-item" href=""><i class="fas fa-eye"></i></a></li>
+                                                                <li><a title="Delete" class="dropdown-item" onclick="return confirm('Are you sure to delete ?');" href=""><i class="fas fa-trash-alt"></i></a></li>
                                                             </ul>
                                                         </div>
-                                                    </div>
+                                                    </div>--}}
                                                 </td>
                                             </tr>
                                             @php $i++; @endphp

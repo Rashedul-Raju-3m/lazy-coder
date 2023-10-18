@@ -55,6 +55,7 @@ return [
         'themeNameMustbeUnique' => 'Theme name must be unique',
         'chooseLayoutType' => 'Choose layout type',
         'chooseStyleGroup' => 'Choose style group',
+        'themeUpdate' => 'Update theme',
     /*
     |--------------------------------------------------------------------------
     | Component language End

@@ -18,6 +18,7 @@ use Modules\Appfiy\Entities\Page;
 use Modules\Appfiy\Entities\Theme;
 use Modules\Appfiy\Entities\ThemeComponent;
 use Modules\Appfiy\Entities\ThemeComponentStyle;
+use Modules\Appfiy\Entities\ThemeConfig;
 use Modules\Appfiy\Entities\ThemePage;
 
 class ThemeController extends Controller
@@ -100,6 +101,34 @@ class ThemeController extends Controller
         DB::beginTransaction();
         try {
             $theme = Theme::create($input);
+            if (count($array)>0){
+                foreach ($array as $val){
+                    $globalConfig = GlobalConfig::find($val);
+                    ThemeConfig::create([
+                        'theme_id' => $theme->id,
+                        'global_config_id' => $val,
+                        'mode' => $globalConfig->mode,
+                        'name' => $globalConfig->name,
+                        'slug' => $globalConfig->slug,
+                        'background_color' => $globalConfig->background_color,
+                        'layout' => $globalConfig->layout,
+                        'icon_theme_size' => $globalConfig->icon_theme_size,
+                        'icon_theme_color' => $globalConfig->icon_theme_color,
+                        'shadow' => $globalConfig->shadow,
+                        'icon' => $globalConfig->icon,
+                        'automatically_imply_leading' => $globalConfig->automatically_imply_leading,
+                        'center_title' => $globalConfig->center_title,
+                        'flexible_space' => $globalConfig->flexible_space,
+                        'bottom' => $globalConfig->bottom,
+                        'shape_type' => $globalConfig->shape_type,
+                        'shape_border_radius' => $globalConfig->shape_border_radius,
+                        'toolbar_opacity' => $globalConfig->toolbar_opacity,
+                        'actions_icon_theme_color' => $globalConfig->actions_icon_theme_color,
+                        'actions_icon_theme_size' => $globalConfig->actions_icon_theme_size,
+                        'title_spacing' => $globalConfig->title_spacing,
+                    ]);
+                }
+            }
             if (count($getAllPages)>0){
                 foreach ($getAllPages as $page){
                     $themePage = ThemePage::create([
@@ -139,12 +168,12 @@ class ThemeController extends Controller
             }
             DB::commit();
 
-            /*if (isset($theme->id)){
+            if (isset($theme->id)){
                 Session::flash('message',__('appfiy::messages.CreateMessage'));
                 return redirect()->route('theme_attribute_edit', [app()->getLocale(),$theme->id]);
-            }*/
-            Session::flash('message',__('appfiy::messages.CreateMessage'));
-            return redirect()->route('theme_list', [app()->getLocale()]);
+            }
+//            Session::flash('message',__('appfiy::messages.CreateMessage'));
+//            return redirect()->route('theme_list', [app()->getLocale()]);
 
         } catch (\Exception $e) {
             DB::rollback();
