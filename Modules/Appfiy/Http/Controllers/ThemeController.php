@@ -210,7 +210,62 @@ class ThemeController extends Controller
      */
     public function attributeEdit($ln,$id){
         $themeDetails = Theme::find($id);
-        return view('appfiy::theme/edit',['themeDetails'=>$themeDetails]);
+        $themeConfig = ThemeConfig::where('theme_id',$id)->get()->toArray();
+        $pages = ThemePage::where('appfiy_theme_page.theme_id',$id)
+                            ->select([
+                                'appfiy_theme_page.id as theme_page_id',
+                                'appfiy_theme_page.page_id as page_id',
+                                'appfiy_page.name',
+                                'appfiy_page.slug',
+                                'appfiy_theme_page.persistent_footer_buttons',
+                                'appfiy_theme_page.background_color',
+                                'appfiy_theme_page.border_color',
+                                'appfiy_theme_page.border_radius',
+                            ])
+                            ->join('appfiy_page','appfiy_page.id','=','appfiy_theme_page.page_id')
+                            ->get()->toArray();
+        $themePages = [];
+        if (count($pages)>0){
+            foreach ($pages as $page){
+                $themeComponent = ThemeComponent::where('theme_page_id',$page['theme_page_id'])
+                                    ->select(['id','component_id','display_name','clone_component','selected_id as selected'])
+                                    ->get()->toArray();
+                $page['component'] = $themeComponent;
+                $themePages[] = $page;
+            }
+        }
+//        dd($themePages);
+        return view('appfiy::theme/edit',['themeDetails'=>$themeDetails,'themeConfig'=>$themeConfig,'themePages'=>$themePages]);
+    }
+
+    public function themeComponentUpdate(){
+        $id = $_GET['id'];
+        $fieldName = $_GET['fieldName'];
+        $response = [];
+
+        $themeComponent = ThemeComponent::find($id);
+        if ($fieldName == 'display_name'){
+            $value = $_GET['value'];
+            $themeComponent->update([
+                'display_name' => $value
+            ]);
+            $response['status'] = 'ok';
+        }
+        if ($fieldName == 'clone_component'){
+            $value = $_GET['value'];
+            $themeComponent->update([
+                'clone_component' => $value
+            ]);
+            $response['status'] = 'ok';
+        }
+        if ($fieldName == 'selected_id'){
+            $isChecked = $_GET['isChecked'];
+            $themeComponent->update([
+                'selected_id' => $isChecked
+            ]);
+            $response['status'] = 'ok';
+        }
+        return $response;
     }
 
     /**

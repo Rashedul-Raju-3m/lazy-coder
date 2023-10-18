@@ -31,107 +31,74 @@
 
                     <div class="card-body">
                         @include('layouts.message')
-                        <div class="row">
-                            <div class="col-md-12">
-                                {!! Form::model($themeDetails, ['method' => 'PATCH','autocomplete'=>'off', 'files'=> true, 'route'=> ['component_update',app()->getLocale(), $themeDetails->id],'enctype'=>'multipart/form-data']) !!}
 
-                                <div class="row">
-
-                                    <div class="form-group row mg-top">
-                                        <div class="col-sm-2">
-                                            <label for="" class="form-label">{{__('appfiy::messages.name')}}</label>
-                                            <span class="textRed">*</span>
-                                        </div>
-
-                                        <div class="col-sm-4">
-                                            {!! Form::text('name', null, array('class' => 'form-control ','placeholder'=>__('appfiy::messages.enterComponentName'))) !!}
-                                            <span class="textRed">{!! $errors->first('name') !!}</span>
-                                        </div>
-
-                                        <div class="col-sm-2">
-                                            <label for="" class="form-label">{{__('appfiy::messages.label')}}</label>
-                                            <span class="textRed">*</span>
-                                        </div>
-
-                                        <div class="col-sm-4">
-                                            {!! Form::text('label', null, array('class' => 'form-control ','placeholder'=>__('appfiy::messages.enterComponentLabel'))) !!}
-                                            <span class="textRed">{!! $errors->first('label') !!}</span>
-                                        </div>
+                        @if(count($themeConfig)>0)
+                            <p class="d-inline-flex gap-1">
+                                @foreach($themeConfig as $config)
+                                <a class="btn btn-primary" data-bs-toggle="collapse" href="#{{$config['slug']}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                    {{$config['name']}}
+                                </a>
+                                @endforeach
+                            </p>
+                            @foreach($themeConfig as $config)
+                                <div class="collapse" id="{{$config['slug']}}">
+                                    <div class="card card-body">
+                                        {{$config['name']}}
                                     </div>
-
-                                    <div class="form-group row mg-top">
-                                        <div class="col-sm-2">
-                                            <label for="" class="form-label">{{__('appfiy::messages.iconName')}}</label>
-                                            <span class="textRed">*</span>
-                                        </div>
-
-                                        <div class="col-sm-4">
-                                            {!! Form::text('icon_code', null, array('class' => 'form-control ','placeholder'=>__('appfiy::messages.enterIconName'))) !!}
-                                            <span class="textRed">{!! $errors->first('icon_code') !!}</span>
-                                        </div>
-
-                                        <div class="col-sm-2">
-                                            <label for="" class="form-label">{{__('appfiy::messages.event')}}</label>
-                                            <span class="textRed">*</span>
-                                        </div>
-
-                                        <div class="col-sm-4">
-                                            {!! Form::text('event', null, array('class' => 'form-control ','placeholder'=>__('appfiy::messages.EnterEvent'))) !!}
-                                            <span class="textRed">{!! $errors->first('event') !!}</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row mg-top">
-
-                                        <div class="col-sm-2">
-                                            <label for="" class="form-label">{{__('appfiy::messages.classType')}}</label>
-{{--                                            <span class="textRed">*</span>--}}
-                                        </div>
-
-                                        <div class="col-sm-10">
-                                            {!! Form::text('class_type', null, array('class' => 'form-control ','placeholder'=>__('appfiy::messages.EnterClassType'))) !!}
-{{--                                            <span class="textRed">{!! $errors->first('class_type') !!}</span>--}}
-                                        </div>
-                                    </div>
-
-
-
-                                    <div class="row mg-top">
-                                        <div class="col-md-2"></div>
-                                        <div class="col-md-10" >
-                                            <div class="from-group">
-                                                <button type="submit" class="btn btn-primary " id="UserFormSubmit">Next</button>
-                                                <button type="reset" class="btn submit-button">Reset</button>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
                                 </div>
+                            @endforeach
+                        @endif
+                        <br>
+                        @if(count($themePages)>0)
+                            <p class="d-inline-flex gap-1">
+                                @foreach($themePages as $page)
+                                <a class="btn btn-primary" data-bs-toggle="collapse" href="#{{$page['slug']}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                    {{$page['name']}}
+                                </a>
+                                @endforeach
+                            </p>
+                            @foreach($themePages as $page)
+                                <div class="collapse" id="{{$page['slug']}}">
+                                    <div class="card card-body" style="margin-bottom: 0px">
+                                        <h2>{{$page['name']}}</h2>
+                                        @if(count($page['component'])>0)
+                                            <div class="container text-center">
+                                                <div class="row">
 
-                                {!! Form::close() !!}
-                            </div>
-                        </div>
+                                                @foreach($page['component'] as $component)
+
+                                                        <div class="col" style="padding: 10px;box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);">
+                                                            <h5><span class="badge bg-secondary display_name_{{$component['id']}}">{{$component['display_name']}}</span></h5>
+
+                                                            <h5>
+                                                                {{--<div class="form-check form-check-inline">
+                                                                {!! Form::text('display_name', $component['display_name'], array('class' => 'form-control','id'=>'display_name','placeholder'=>'Display name','data-id'=>$component['id'])) !!}
+                                                                </div>
+                                                                <br>
+                                                                <div class="form-check form-check-inline">
+                                                                    {!! Form::text('clone_component', $component['clone_component'], array('class' => 'form-control','id'=>'clone_component','placeholder'=>'Clone component','data-id'=>$component['id'])) !!}
+                                                                </div>
+                                                                <br>--}}
+                                                                <a data-href="{{route('theme_component_update',app()->getLocale())}}" id="theme_component_update"></a>
+                                                                    <div class="form-check form-check-inline">
+                                                                        <input style="margin-top: 0px" class="form-check-input selected_id checked_id_{{$component['id']}}" name="selected_id" type="checkbox" id="{{$component['display_name'].$component['id']}}" value="{{$component['id']}}"
+                                                                        @if($component['selected'] == 1)
+                                                                            {{'checked'}}
+                                                                            @endif
+                                                                        >
+                                                                        <label class="form-check-label" for="{{$component['display_name'].$component['id']}}">Selected</label>
+                                                                    </div>
+                                                            </h5>
+                                                        </div>
+                                            @endforeach
+                                                </div>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="allModalShow" tabindex="-1" aria-labelledby="allModalShowModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="appfiypleModalLabel"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="" id="modelForm">
-
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn customButton" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>                    <button type="button" class="btn btn-primary modelDataInsert">Save changes</button>
                 </div>
             </div>
         </div>
@@ -171,122 +138,70 @@
 @endpush
 
 @section('footer.scripts')
-
-{{--    <script src="{{Module::asset('quran:js/sura-datatable.js')}}"></script>--}}
     <script type="text/javascript">
-        $(function () {
-            /*$(document).on("change", ".isChecked", function (e) {
-                e.preventDefault();
-            });*/
-            /* DESIGNATION ADD */
-            /*$(document).delegate('.modelShow','click',function(){
-                var modelName = $(this).attr('modelname');
-                if(modelName == 'designation'){
-                    $('.modal-title').text('New Designation');
-                    $('#modelForm').html('<input type="text" name="name" fieldName="designation" class="form-control fieldValue" placeholder="{{__('appfiy::messages.modelEnterDesig')}}" id="newDesignation">');
+        $(document).delegate('.selected_id','click',function(){
+            let isChecked = 0
+            if($(this).is(':checked')){isChecked = 1}
+            let id = $(this).attr('value')
+            let route = $('#theme_component_update').attr('data-href');
+            $.ajax({
+                url: route,
+                method: "get",
+                dataType: "json",
+                data: {id: id,isChecked:isChecked,fieldName:'selected_id'},
+                beforeSend: function( xhr ) {
+
                 }
-                if (modelName == 'location'){
-                    $('.modal-title').text('New Location');
-                    $('#modelForm').html('<input type="text" name="name" fieldName="location" class="form-control fieldValue" placeholder="{{__('appfiy::messages.modelLocation')}}" id="newLocation">');
+            }).done(function( response ) {
+                if(response.status=='ok') {
+                    isChecked == 1 ? $('.checked_id_' + id).prop('checked', true) : $('.checked_id_' + id).prop('checked', false)
                 }
-                if (modelName == 'department'){
-                    $('.modal-title').text('New Department');
-                    $('#modelForm').html('<input type="text" name="name" fieldName="department" class="form-control fieldValue" placeholder="{{__('appfiy::messages.modelDepartment')}}" id="newDepartment">');
+            }).fail(function( jqXHR, textStatus ) {
+
+            });
+            return false;
+        });
+        $(document).delegate('#display_name','blur',function(){
+            let id = $(this).attr('data-id')
+            let value = $(this).val();
+            let route = $('#theme_component_update').attr('data-href');
+            $.ajax({
+                url: route,
+                method: "get",
+                dataType: "json",
+                data: {id: id,value:value,fieldName:'display_name'},
+                beforeSend: function( xhr ) {
+
                 }
-                $("#allModalShow").modal('show');
-
-            });*/
-
-            /*Data insert from model designation/location/department*/
-            /*$(document).delegate('.modelDataInsert','click',function(){
-                var value = $('.fieldValue').val();
-                var type = $('.fieldValue').attr('fieldname');
-                var route = $('#createRouteforauthor').attr('data-href');
-                var validation = true;
-
-                if (type == 'designation'){
-                    if (value == ''){
-                        Swal.fire(
-                            'Enter designation',
-                            '',
-                        )
-                        return false
-                        validation = false;
-                    }
+            }).done(function( response ) {
+                if(response.status == 'ok') {
+                    $('.display_name_'+id).text(value)
                 }
+            }).fail(function( jqXHR, textStatus ) {
 
-                if (type == 'location'){
-                    if (value == ''){
-                        Swal.fire(
-                            'Enter location',
-                            '',
-                        )
-                        return false
-                        validation = false;
-                    }
+            });
+            return false;
+        });
+        $(document).delegate('#clone_component','blur',function(){
+            let id = $(this).attr('data-id')
+            let value = $(this).val();
+            let route = $('#theme_component_update').attr('data-href');
+            $.ajax({
+                url: route,
+                method: "get",
+                dataType: "json",
+                data: {id: id,value:value,fieldName:'clone_component'},
+                beforeSend: function( xhr ) {
+
                 }
-
-                if (type == 'department'){
-                    if (value == ''){
-                        Swal.fire(
-                            'Enter department',
-                            '',
-                        )
-                        return false
-                        validation = false;
-                    }
+            }).done(function( response ) {
+                if(response.status == 'ok') {
+                    // $('.display_name_'+id).text(value)
                 }
-                if (validation){
-                    $.ajax({
-                        url: route,
-                        method: "get",
-                        dataType: "json",
-                        data: {value: value,type:type},
-                        beforeSend: function( xhr ) {
+            }).fail(function( jqXHR, textStatus ) {
 
-                        }
-                    }).done(function( response ) {
-                        if (!response.exists) {
-                            var allItems = response.dropdown;
-                            var dropdownOption = '';
-                            if (response.type == '1') {
-                                var dropdownOption = '<option value="">{{__('appfiy::messages.selectDesignation')}}</option>';
-                            }
-
-                            if (response.type == '2') {
-                                var dropdownOption = '<option value="">{{__('appfiy::messages.selectDepartment')}}</option>';
-                            }
-
-                            if (response.type == '3') {
-                                var dropdownOption = '<option value="">{{__('appfiy::messages.selectLocation')}}</option>';
-                            }
-
-                            jQuery.each(allItems, function (i, item) {
-                                dropdownOption += '<option value="' + i + '">' + item + '</option>';
-                            });
-                            if (response.type == '1') {
-                                jQuery('#designation_id').html(dropdownOption);
-                            }
-                            if (response.type == '2') {
-                                jQuery('#department_id').html(dropdownOption);
-                            }
-                            if (response.type == '3') {
-                                jQuery('#location_id').html(dropdownOption);
-                            }
-
-                            $("#allModalShow").modal('hide');
-                        }else{
-                            Swal.fire(
-                                response.exists,
-                                '',
-                            )
-                        }
-                    }).fail(function( jqXHR, textStatus ) {
-
-                    });
-                    return false;
-                }
-            });*/
+            });
+            return false;
         });
     </script>
 
