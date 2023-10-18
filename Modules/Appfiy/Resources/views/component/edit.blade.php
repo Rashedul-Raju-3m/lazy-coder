@@ -62,7 +62,7 @@
                                     <div class="form-group row mg-top">
                                         <div class="col-sm-2">
                                             <label for="" class="form-label">{{__('appfiy::messages.iconName')}}</label>
-                                            <span class="textRed">*</span>
+{{--                                            <span class="textRed">*</span>--}}
                                         </div>
 
                                         <div class="col-sm-4">
@@ -72,7 +72,7 @@
 
                                         <div class="col-sm-2">
                                             <label for="" class="form-label">{{__('appfiy::messages.event')}}</label>
-                                            <span class="textRed">*</span>
+{{--                                            <span class="textRed">*</span>--}}
                                         </div>
 
                                         <div class="col-sm-4">
@@ -136,7 +136,7 @@
                                         </div>
                                     </div>--}}
 
-                                    {{--<div class="form-group row mg-top">
+                                    <div class="form-group row mg-top">
                                         <div class="col-sm-2">
                                             {!! Form::label(__('appfiy::messages.image'), __('appfiy::messages.image'), array('class' => 'form-label','for'=>'formFile')) !!}
                                         </div>
@@ -147,7 +147,7 @@
                                                 <span class="imageText">{{$data->image}}</span>
                                             @endif
                                         </div>
-                                    </div>--}}
+                                    </div>
 
                                     <div class="form-group row mg-top">
                                         <div class="col-sm-2">

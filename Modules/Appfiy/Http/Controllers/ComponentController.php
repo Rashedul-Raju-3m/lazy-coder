@@ -116,8 +116,8 @@ class ComponentController extends Controller
         $this->validate($request, [
             'name' => 'required|unique:appfiy_component,name,'.$id,
             'label' => 'required',
-            'icon_code' => 'required',
-            'event' => 'required',
+//            'icon_code' => 'required',
+//            'event' => 'required',
             'scope' => 'required',
             'layout_type_id' => 'required',
             'style_group' => 'required',
@@ -125,8 +125,8 @@ class ComponentController extends Controller
             'name.required' => __('appfiy::messages.enterComponentName'),
             'name.unique' => __('appfiy::messages.componentNameMustbeUnique'),
             'label.required' => __('appfiy::messages.enterComponentLabel'),
-            'icon_code.required' => __('appfiy::messages.enterIconName'),
-            'event.required' => __('appfiy::messages.EnterEvent'),
+//            'icon_code.required' => __('appfiy::messages.enterIconName'),
+//            'event.required' => __('appfiy::messages.EnterEvent'),
             'scope.required' => __('appfiy::messages.ChooseScope'),
             'layout_type_id.required' => __('appfiy::messages.chooseLayoutType'),
             'style_group.required' => __('appfiy::messages.chooseStyleGroup'),
@@ -173,6 +173,7 @@ class ComponentController extends Controller
             $input['web_icon'] = $component->audio_bn;
         }
 
+        */
         if ($request->file('image') != '') {
             $target_location = 'upload/component-image/';
             File::delete(public_path().'/'.$target_location.$component->image);
@@ -189,7 +190,7 @@ class ComponentController extends Controller
             move_uploaded_file($file_path,$target_file);
         }else{
             $input['image'] = $component->audio_en;
-        }*/
+        }
 
 
         DB::beginTransaction();
@@ -198,22 +199,7 @@ class ComponentController extends Controller
             $component->save();
 
             if (isset($input['style_group'])){
-//                foreach ($input['style_group'] as $styleGroup) {
-//                    dd($styleGroup);
-                    /*$layoutProperties = StyleGroupProperties::where('appfiy_style_group_properties.style_group_id', $styleGroup)
-                        ->where('appfiy_style_properties.is_active', 1)
-                        ->join('appfiy_style_properties', 'appfiy_style_properties.id', '=', 'appfiy_style_group_properties.style_property_id')
-                        ->select([
-                            'appfiy_style_properties.name',
-                            'appfiy_style_properties.input_type',
-                            'appfiy_style_properties.value',
-                            'appfiy_style_properties.default_value',
-                        ])
-                        ->get();*/
-//                    dd($layoutProperties);
-
                     $componentStyleExists = $component->componentStyleGroup->toArray();
-//                    dd($componentStyleExists);
                     $componentStyleArray = [];
                     if (count($componentStyleExists) > 0) {
                         foreach ($componentStyleExists as $lay) {
@@ -221,9 +207,7 @@ class ComponentController extends Controller
                         }
                     }
                     $insertLayoutArray = array_diff($input['style_group'], $componentStyleArray);
-//                    dd($insertLayoutArray);
                     $deleteArrayList = array_diff($componentStyleArray, $input['style_group']);
-//                    dd($deleteArrayList);
                     if (count($deleteArrayList) > 0) {
                         foreach ($deleteArrayList as $deleteID) {
                             ComponentStyleGroup::where('component_id', $id)->where('style_group_id', $deleteID)->first()->delete();
