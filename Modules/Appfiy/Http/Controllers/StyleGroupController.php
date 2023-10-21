@@ -13,6 +13,7 @@ use Modules\Appfiy\Entities\Component;
 use Modules\Appfiy\Entities\ComponentLayout;
 use Modules\Appfiy\Entities\ComponentProperties;
 use Modules\Appfiy\Entities\LayoutTypeProperties;
+use Modules\Appfiy\Entities\MedicineBrand;
 use Modules\Appfiy\Entities\StyleGroup;
 use Modules\Appfiy\Entities\StyleGroupProperties;
 use Modules\Appfiy\Entities\StyleProperties;

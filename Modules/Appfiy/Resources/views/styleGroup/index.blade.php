@@ -60,6 +60,7 @@
                                     </tbody>
                                 @endif
                             </table>
+
                             @if(count($styleGroups)>0)
                                 <div class=" justify-content-right">
                                     {{ $styleGroups->links('layouts.pagination') }}
