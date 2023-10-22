@@ -1,5 +1,3 @@
 {
-    "Appfiy": true,
-    "Migration": true,
-    "CreateDomainTable": true
+    "Appfiy": true
 }

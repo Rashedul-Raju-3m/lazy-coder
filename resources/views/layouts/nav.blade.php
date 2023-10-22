@@ -12,7 +12,6 @@
         </div><!-- search-body -->
     </div><!-- sidebar-search -->
     <div class="sidebar-body pt-20">
-
         @if(Module::has('Appfiy'))
 
             <div class="nav-group {{ Request::is(app()->getLocale().'/appfiy/layout/type/*') ? 'show' : ''}}">
@@ -56,37 +55,7 @@
                 </ul>
             </div>
         @endif
-        {{--@if(Module::has('Exam'))
-            @can('EXAM')
-                @canany(['CREATE','EDIT','DELETE'])
-                    @include('exam::layouts.nav1')
-                @endcanany
-            @endcan
-        @endif--}}
 
-            {{--@can('CORE')
-                <div class="nav-group {{ Request::is(app()->getLocale().'/user/*') ? 'show' : ''}}">
-                    <div class="nav-group-label" style="font-size: 15px !important;">{{__('messages.userMenu')}}</div>
-                    <ul class="nav-sidebar">
-                        <li class="nav-item ">
-                            <a href="{{route('user_add', app()->getLocale())}}" class="nav-link {{ Request::is(app()->getLocale().'/user/create') ? 'active' : ''}}"><i data-feather="arrow-right"></i><span>New User</span></a>
-                            <a href="{{route('user_list', app()->getLocale())}}" class="nav-link {{ Request::is(app()->getLocale().'/user/list') ? 'active' : ''}}"><i data-feather="arrow-right"></i><span>User List</span></a>
-                        </li>
-                    </ul>
-                </div>
-            @endcan--}}
-
-            {{--@can('CORE')
-                <div class="nav-group {{ Request::is(app()->getLocale().'/role/*') ? 'show' : ''}}">
-                    <div class="nav-group-label" style="font-size: 15px !important;">{{ __('messages.role') }}</div>
-                    <ul class="nav-sidebar">
-                        <li class="nav-item ">
-                            <a href="{{route('role_add', app()->getLocale())}}" class="nav-link {{ Request::is(app()->getLocale().'/role/create') ? 'active' : ''}}"><i data-feather="arrow-right"></i><span>New Role</span></a>
-                            <a href="{{route('role_list', app()->getLocale())}}" class="nav-link {{ Request::is(app()->getLocale().'/role/list') ? 'active' : ''}}"><i data-feather="arrow-right"></i><span>Role List</span></a>
-                        </li>
-                    </ul>
-                </div>
-            @endcan--}}
 
     </div><!-- sidebar-body -->
 
