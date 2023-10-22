@@ -122,9 +122,10 @@ class ApiController extends Controller
         }
         try{
             $data = [];
-            $themeID = $request->query('id');
-            if ($themeID){
-
+            $themeslug = $request->query('slug');
+            $theme = Theme::where('slug',$themeslug)->first();
+            if ($theme){
+                $themeID = $theme->id;
                 $data = Theme::select([
                     'appfiy_theme.id',
                     'appfiy_theme.name'
@@ -241,6 +242,7 @@ class ApiController extends Controller
                                             $finalNewStyle[$groupName->slug] = $newStyle;
                                         }
 
+//                                        dd($component['layout_type']);
                                         $componentArrange['general'] = [
                                             'component_position'=>$component['component_position'],
 //                                            'component_id'=>$component['id'],
@@ -255,6 +257,7 @@ class ApiController extends Controller
                                             'web_icon'=>$component['web_icon'],
                                             'image_url'=>$component['image'],
                                             'is_multiple'=>$component['is_multiple'],
+                                            'selected_design'=>($component['layout_type']=='list-view-vertical' || $component['layout_type']=='list-view-horizontal' || $component['layout_type']=='list-view-grid')?1:null,
                                         ];
                                         $componentArrange['style'] = $finalNewStyle?$finalNewStyle:json_decode('{}');
                                         $componentWithStyletest[] = $componentArrange;
@@ -332,6 +335,8 @@ class ApiController extends Controller
                                         'clone_component'=>$pagesComponent['clone_component'],
                                         'selected_design'=>$pagesComponent['selected_id'],
                                         'image_url'=>$pagesComponent['image'],
+                                        'selected_design'=>($pagesComponent['layout_type']=='list-view-vertical' || $pagesComponent['layout_type']=='list-view-horizontal' || $pagesComponent['layout_type']=='list-view-grid')?1:null,
+
 
 //                                        'is_multiple'=>$pagesComponent['is_multiple'],
 //                                        'style'=>$newStyle,
