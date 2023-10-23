@@ -292,6 +292,7 @@ class ApiController extends Controller
                                     'appfiy_theme_component.display_name',
                                     'appfiy_theme_component.clone_component',
                                     'appfiy_theme_component.selected_id',
+                                    'appfiy_theme_component.sort_ordering',
                                     DB::raw('CONCAT("/upload/component-image/", appfiy_component.image) AS image'),
                                     'appfiy_component.is_multiple',
                                 ])
@@ -299,6 +300,7 @@ class ApiController extends Controller
                                 ->join('appfiy_layout_type','appfiy_layout_type.id','=','appfiy_component.layout_type_id')
                                 ->where('appfiy_theme_component.theme_id', $themeID)
                                 ->where('appfiy_theme_component.theme_page_id', $page['id'])
+                                ->orderBy('sort_ordering','asc')
                                 ->get()->toArray();
 
 //                            dd($getPagesComponents);
@@ -333,9 +335,13 @@ class ApiController extends Controller
                                         'class_type'=>$pagesComponent['product_type'],
                                         'display_name'=>$pagesComponent['display_name'],
                                         'clone_component'=>$pagesComponent['clone_component'],
-                                        'selected_design'=>$pagesComponent['selected_id'],
+                                        'selected_id'=>$pagesComponent['selected_id'],
                                         'image_url'=>$pagesComponent['image'],
                                         'selected_design'=>($pagesComponent['layout_type']=='list-view-vertical' || $pagesComponent['layout_type']=='list-view-horizontal' || $pagesComponent['layout_type']=='list-view-grid')?1:null,
+                                        'selected_category' => null,
+                                        'selected_category_slug' => null,
+                                        'selected_category_ids' => null,
+                                        'sort_ordering' => $pagesComponent['sort_ordering'],
 
 
 //                                        'is_multiple'=>$pagesComponent['is_multiple'],
