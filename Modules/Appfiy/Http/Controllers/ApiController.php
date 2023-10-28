@@ -275,6 +275,7 @@ class ApiController extends Controller
                     $pages = [];
                     if (count($data['page'])){
                         foreach ($data['page'] as $page){
+//                            dd($page);
                             $getPagesComponents = DB::table('appfiy_theme_component')
                                 ->select([
                                     'appfiy_theme_component.id as theme_component_id',

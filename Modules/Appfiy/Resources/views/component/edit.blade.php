@@ -99,8 +99,9 @@
                                         </div>
                                         @php
                                             $dropdownValue = [
-                                                'Product' => 'Product',
-                                                'Category' => 'Category'
+                                                'product' => 'Product',
+                                                'category' => 'Category',
+                                                'category-product' => 'Category Product'
                                             ];
                                         @endphp
 
